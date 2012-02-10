@@ -12,7 +12,43 @@
 <%@ page import="com.google.appengine.api.datastore.KeyFactory" %>
 
 <html>
+<head>
+	<link rel="stylesheet" href="front-end/css/bootstrap.min.css">
+	<link rel="stylesheet" href="front-end/css/bootstrap-responsive.min.css">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<style>
+	      body {
+	        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+	      }
+	</style>
+	</head>
   <body>
+	<div class="navbar navbar-fixed-top">
+	      <div class="navbar-inner">
+	        <div class="container-fluid">
+	          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </a>
+	          <a class="brand" href="#">SentientHome</a>
+	          <div class="nav-collapse">
+	            <ul class="nav">
+	              <li class="active"><a href="#">Home</a></li>
+	              <li><a href="#about">About</a></li>
+	              <li><a href="#contact">Contact</a></li>
+	            </ul>
+	            <p class="navbar-text pull-right" id="signlinks" >
+					<a href="#">
+						<span id="account"></span>
+					</a>
+					 	<span id="tick"></span>
+					<a id="signwhat" href=""></a>
+				</p>
+	          </div><!--/.nav-collapse -->
+	        </div>
+	      </div>
+	    </div>
 
 <%
 	String moduleName = request.getParameter("moduleName");
@@ -23,67 +59,118 @@
     User user = userService.getCurrentUser();
     if (user != null) {
 %>
-<p>Hello, <%= user.getNickname() %>! You can add/remove modules to your account. (You can
-<a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
-<FORM METHOD=POST ACTION="/addModule">
-Module Name    <INPUT TYPE=TEXT NAME=moduleName SIZE=20><BR>
-Module Type		<select id="moduleType" name="moduleType">  
-    				<option>Dimmer</option>
-    				<option>Door Buzzer</option> 
-				</select> 
-				<br /> 
-Module MAC Addr<INPUT TYPE=TEXT NAME=macAddr SIZE=20><BR>
-<div><input type="submit" value="Add Module" /></div>
-</FORM>
-<%
-	String username = user.getNickname();
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Key moduleKey = KeyFactory.createKey("user", username);
-    // Run an ancestor query to ensure we see the most up-to-date
-    Query query = new Query("Module", moduleKey).addSort("date", Query.SortDirection.DESCENDING);
-    List<Entity> modules = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(15));
+<div class="container">
+	<script>
+		$(document).ready(function() {
+			$("#signlinks").prepend("Logged in as ");
+			$("#account").append("<%= user.getNickname() %>");
+			$("#signwhat").append("Sign Out");
+			$("#tick").append(" | ");
+			$("#signwhat").attr('href',"<%= userService.createLogoutURL(request.getRequestURI()) %>");
+		 });
+		
+	
+	</script>
 
-	if (modules.isEmpty()){
-	%>
-	<p>There are no modules added to your account.</p>
-	<%
-	} else {
-	%>
-	<p>There modules on your account are:</p>
-	<table border="1">
-	<tr>
-	<th>Module Name</th>
-	<th>Module Type</th>
-	<th>MAC Address</th>
-	<th>Delete Module</th>
-	</tr>
-	<%
-	for (Entity module : modules) {
-	%>
-	<tr>
-	<td><%= module.getProperty("moduleName") %></td>
-	<td><%= module.getProperty("moduleType") %></td>
-	<td><%= module.getProperty("macAddr") %></td>
-	<td><CENTER>
-	<button type="button" 
-	onclick="alert('Module removed!')">X
-	</button></CENTER></td>
-	</tr>
-	<%
-    }
-	}
-	%>
-	</table>
-	<%	
-    } else {
-%>
+
+	<div class="row show-grid">
+	    <div class="span6">
+	    	<p>Hello, <%= user.getNickname() %>! You can add/remove modules to your account.</p>
+			<FORM METHOD="POST" ACTION="/addModule" class="form-horizontal">
+
+
+				<div class="control-group">
+					<label class="control-label" for="moduleName">Module Name</label>
+					<div class="controls">
+						<INPUT TYPE="TEXT" NAME="moduleName" id="moduleName" SIZE=20>
+					</div>	
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="moduleType">Module Type</label>	
+					<div class="controls">
+							<select id="moduleType" name="moduleType">  
+			    				<option>Dimmer</option>
+			    				<option>Door Buzzer</option> 
+							</select> 
+					</div>	
+				</div>			
+
+				<div class="control-group">
+					<label class="control-label" for="macAddr">Module MAC Addr</label>
+					<div class="controls">
+						<INPUT TYPE="TEXT" NAME="macAddr" SIZE=20>
+					</div>	
+				</div>		
+
+				<div class="form-actions">		
+					<input class="btn btn-primary" type="submit" value="Add Module" />
+				</div>
+
+			</FORM>
+	
+	
+	    </div>
+	    <div class="span6">
+			<%
+				String username = user.getNickname();
+			    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+			    Key moduleKey = KeyFactory.createKey("user", username);
+			    // Run an ancestor query to ensure we see the most up-to-date
+			    Query query = new Query("Module", moduleKey).addSort("date", Query.SortDirection.DESCENDING);
+			    List<Entity> modules = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(15));
+
+				if (modules.isEmpty()){
+				%>
+				<p>There are no modules added to your account.</p>
+				<%
+				} else {
+				%>
+				<p>There modules on your account are:</p>
+				<table class="table table-striped table-bordered table-condensed">
+				<tr>
+					<th>Module Name</th>
+					<th>Module Type</th>
+					<th>MAC Address</th>
+					<th>Delete Module</th>
+				</tr>
+				<%
+				for (Entity module : modules) {
+				%>
+				<tr>
+					<td><%= module.getProperty("moduleName") %></td>
+					<td><%= module.getProperty("moduleType") %></td>
+					<td><%= module.getProperty("macAddr") %></td>
+					<td><CENTER>
+				<button type="button" onclick="alert('Module removed!')">X
+				</button></CENTER></td>
+				</tr>
+				<%
+			    }
+				}
+				%>
+				</table>
+				<%	
+			    } else {
+			%>
+		</div>
+	  </div>
+
+	<script>
+		$(document).ready(function() {
+			//$("#account").append("");
+			$("#signwhat").append("Sign In");
+			$("#signwhat").attr('href',"<%= userService.createLoginURL(request.getRequestURI()) %>");
+		 });
+
+
+	</script>
 <p>Hello!
 <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
 to add/remove modules to your account.</p>
 <%
     }
 %>
-  </body>
-</html>
+</div>
   </body>
 </html>
