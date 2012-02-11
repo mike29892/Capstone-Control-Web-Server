@@ -35,7 +35,7 @@
 	          <div class="nav-collapse">
 	            <ul class="nav">
 	              <li class="active"><a href="#">Home</a></li>
-	              <li><a href="#about">About</a></li>
+	              <li><a href="/control.jsp">Control</a></li>
 	              <li><a href="#contact">Contact</a></li>
 	            </ul>
 	            <p class="navbar-text pull-right" id="signlinks" >
@@ -75,6 +75,7 @@
 
 	<div class="row show-grid">
 	    <div class="span6">
+			<div class="well">
 	    	<p>Hello, <%= user.getNickname() %>! You can add/remove modules to your account.</p>
 			<FORM METHOD="POST" ACTION="/addModule" class="form-horizontal">
 
@@ -108,7 +109,7 @@
 				</div>
 
 			</FORM>
-	
+	</div>
 	
 	    </div>
 	    <div class="span6">
@@ -172,5 +173,13 @@ to add/remove modules to your account.</p>
     }
 %>
 </div>
+
+<div class="row show-grid">
+    <div class="span12"><hr></div>
+ </div>
+	
+	<footer>
+        <p>&copy; Mike & Mike Productions 2012</p>
+     </footer>
   </body>
 </html>
