@@ -45,7 +45,7 @@ public class AddModuleServlet extends HttpServlet {
                 DatastoreServiceFactory.getDatastoreService();
         datastore.put(module);
 
-        resp.sendRedirect("/login.jsp?user="
+        resp.sendRedirect("/addmodule.jsp?user="
                 + username);
     }
 }
