@@ -83,7 +83,7 @@
   
   <servlet>
         <servlet-name>addModule</servlet-name>
-        <servlet-class>ccwebserver.client.AddModuleServlet</servlet-class>
+        <servlet-class>com.capstonecontrol.client.AddModuleServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>addModule</servlet-name>
