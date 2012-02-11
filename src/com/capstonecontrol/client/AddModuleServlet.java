@@ -31,14 +31,14 @@ public class AddModuleServlet extends HttpServlet {
 
         Key moduleKey = KeyFactory.createKey("user", username);
         String moduleName = req.getParameter("moduleName");
-        String macAddr = req.getParameter("macAddr");
+        String moduleMacAddr = req.getParameter("moduleMacAddr");
         String moduleType = req.getParameter("moduleType");
         Date date = new Date();
-        Entity module = new Entity("Module", moduleKey);
+        Entity module = new Entity("moduleInfo", moduleKey);
         module.setProperty("user", username);
         module.setProperty("date", date);
         module.setProperty("moduleName", moduleName);
-        module.setProperty("macAddr", macAddr);
+        module.setProperty("moduleMacAddr", moduleMacAddr);
         module.setProperty("moduleType", moduleType);
 
         DatastoreService datastore =

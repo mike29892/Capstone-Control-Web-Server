@@ -97,9 +97,9 @@
 				</div>			
 
 				<div class="control-group">
-					<label class="control-label" for="macAddr">Module MAC Addr</label>
+					<label class="control-label" for="moduleMacAddr">Module MAC Addr</label>
 					<div class="controls">
-						<INPUT TYPE="TEXT" NAME="macAddr" SIZE=20>
+						<INPUT TYPE="TEXT" NAME="moduleMacAddr" SIZE=20>
 					</div>	
 				</div>		
 
@@ -117,7 +117,7 @@
 			    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 			    Key moduleKey = KeyFactory.createKey("user", username);
 			    // Run an ancestor query to ensure we see the most up-to-date
-			    Query query = new Query("Module", moduleKey).addSort("date", Query.SortDirection.DESCENDING);
+			    Query query = new Query("moduleInfo", moduleKey).addSort("date", Query.SortDirection.DESCENDING);
 			    List<Entity> modules = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(15));
 
 				if (modules.isEmpty()){
@@ -140,7 +140,7 @@
 				<tr>
 					<td><%= module.getProperty("moduleName") %></td>
 					<td><%= module.getProperty("moduleType") %></td>
-					<td><%= module.getProperty("macAddr") %></td>
+					<td><%= module.getProperty("moduleMacAddr") %></td>
 					<td><CENTER>
 				<button type="button" onclick="alert('Module removed!')">X
 				</button></CENTER></td>
