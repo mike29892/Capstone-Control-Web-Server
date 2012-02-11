@@ -36,7 +36,7 @@
 	            <ul class="nav">
 	              <li class="active"><a href="#">Home</a></li>
 	              <li><a href="/control.jsp">Control</a></li>
-	              <li><a href="#contact">Contact</a></li>
+	              <li><a href="/login.jsp">Add Modules</a></li>
 	            </ul>
 	            <p class="navbar-text pull-right" id="signlinks" >
 					<a href="#">
@@ -91,15 +91,19 @@
 					//starting type	
 					String the_type = "";
 					for (Entity module : modules) {
+						
 						String cur_type = (String)module.getProperty("moduleType");	//current type in loop
 						String cur_name = (String)module.getProperty("moduleName"); //current name in loop
-						if (cur_type==the_type){
+						
+						if (cur_type.equals(the_type)){
 							out.println("<li><a href=\"#\">"+cur_name+"</a></li>");	//create list link for member of type
 						}else{
 							the_type = cur_type;
 							out.println("<li class=\"nav-header\">"+cur_type+"</li>");	//create header if new type reached
+							out.println("<li><a href=\"#\">"+cur_name+"</a></li>");	//create list link for member of type
 						}
 					}
+					
 					//********************************************
 					//********************************************
 					%>

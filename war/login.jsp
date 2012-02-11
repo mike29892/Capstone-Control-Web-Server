@@ -36,7 +36,7 @@
 	            <ul class="nav">
 	              <li class="active"><a href="#">Home</a></li>
 	              <li><a href="/control.jsp">Control</a></li>
-	              <li><a href="#contact">Contact</a></li>
+	              <li><a href="/login.jsp">Add Modules</a></li>
 	            </ul>
 	            <p class="navbar-text pull-right" id="signlinks" >
 					<a href="#">
