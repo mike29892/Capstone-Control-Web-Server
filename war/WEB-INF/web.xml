@@ -78,5 +78,16 @@
       <role-name>admin</role-name>
     </auth-constraint>
   </security-constraint>
+  
+  
+  
+  <servlet>
+        <servlet-name>addModule</servlet-name>
+        <servlet-class>ccwebserver.client.AddModuleServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addModule</servlet-name>
+        <url-pattern>/addModule</url-pattern>
+    </servlet-mapping>
 
 </web-app>
