@@ -89,5 +89,14 @@
         <servlet-name>addModule</servlet-name>
         <url-pattern>/addModule</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>RemoveModule</servlet-name>
+        <servlet-class>com.capstonecontrol.client.RemoveModuleServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoveModule</servlet-name>
+        <url-pattern>/RemoveModule</url-pattern>
+    </servlet-mapping>
 
 </web-app>
