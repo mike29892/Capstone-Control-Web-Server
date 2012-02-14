@@ -6,18 +6,13 @@ import javax.persistence.Id;
 @Entity
 public class ModuleInfo{
 
-		String date;
 		String moduleMacAddr;
 		String moduleName;
 		String moduleType;
 		String user;
 		@Id
 		Long id;
-		
-		public String getDate(){
-			return date;
-		}
-		
+				
 		public String getModuleMacAddr(){
 			return moduleMacAddr;
 		}
@@ -34,4 +29,12 @@ public class ModuleInfo{
 		public String getUser(){
 			return user;
 		}
+		
+		ModuleInfo(String moduleMacAddr, String moduleName, String moduleType, String user){
+			this.moduleMacAddr = moduleMacAddr;
+			this.moduleName = moduleName;
+			this.moduleType = moduleType;
+			this.user = user;
+		}
+
 	}

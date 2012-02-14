@@ -7,7 +7,7 @@ public class ModuleInfoLocator extends Locator<ModuleInfo, Void> {
 
 	@Override
 	public ModuleInfo create(Class<? extends ModuleInfo> clazz) {
-		return new ModuleInfo();
+		return new ModuleInfo(null, null, null, null);
 	}
 
 	@Override

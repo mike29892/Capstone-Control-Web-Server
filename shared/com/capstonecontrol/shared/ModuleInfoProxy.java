@@ -1,12 +1,10 @@
 package com.capstonecontrol.shared;
 
+import com.google.web.bindery.requestfactory.shared.EntityProxy;
 import com.google.web.bindery.requestfactory.shared.ProxyForName;
-import com.google.web.bindery.requestfactory.shared.ValueProxy;
 
 @ProxyForName(value = "com.capstonecontrol.server.ModuleInfo", locator = "com.capstonecontrol.server.ModuleInfoLocator")
-public interface ModuleInfoProxy extends ValueProxy {
-
-	String getDate();
+public interface ModuleInfoProxy extends EntityProxy  {
 
 	String getModuleMacAddr();
 

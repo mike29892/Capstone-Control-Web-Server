@@ -16,14 +16,12 @@ package com.capstonecontrol.client;
 
 import java.util.List;
 
-import com.google.web.bindery.requestfactory.shared.EntityProxy;
 import com.google.web.bindery.requestfactory.shared.InstanceRequest;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.google.web.bindery.requestfactory.shared.RequestFactory;
 import com.google.web.bindery.requestfactory.shared.ServiceName;
 
-import com.capstonecontrol.client.ModulesRequestFactory.ModuleFetchRequest;
 import com.capstonecontrol.shared.MessageProxy;
 import com.capstonecontrol.shared.ModuleInfoProxy;
 import com.capstonecontrol.shared.RegistrationInfoProxy;
@@ -35,7 +33,7 @@ public interface ModulesRequestFactory extends RequestFactory {
 	    /**
 	     * Retrieve users modules from the server.
 	     */
-	    Request<List<ModuleInfoProxy>> getModules();
+		Request<List<ModuleInfoProxy>> getModules();
 	  }
 	
 	
