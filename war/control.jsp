@@ -45,7 +45,18 @@
 			$("#signwhat").attr('href',"<%= userService.createLogoutURL(request.getRequestURI()) %>");
 		 });
 		
-	
+			///load control
+			function getcontrol(type,name){
+				$.ajax({
+				  type: 'POST',
+				  url: "/mod_controls.jsp",
+				  data: { "moduleName": name, "moduleType": type },
+				  success: function(resp){
+					$("#control_panel").html(resp);
+				}
+				});
+			}
+			
 	</script>
 	
 	<div class="container-fluid">
@@ -66,17 +77,25 @@
 					//********  *with current devices************
 					//starting type	
 					String the_type = "";
+					String start_name = "";
+					String start_type = "";
+					int count = 0;
 					for (Entity module : modules) {
 						
 						String cur_type = (String)module.getProperty("moduleType");	//current type in loop
 						String cur_name = (String)module.getProperty("moduleName"); //current name in loop
+						if(count < 1 ){
+							start_type = cur_type;	//this is here to save the first module in the list
+							start_name = cur_name;	//then load its controls
+						}
+						count = count + 1;
 						
 						if (cur_type.equals(the_type)){
-							out.println("<li><a href=\"#\">"+cur_name+"</a></li>");	//create list link for member of type
+							out.println("<li><a href=\"javascript:getcontrol(\'"+cur_type+"\',\'"+cur_name+"\')\">"+cur_name+"</a></li>");	//create list link for member of type
 						}else{
 							the_type = cur_type;
 							out.println("<li class=\"nav-header\">"+cur_type+"</li>");	//create header if new type reached
-							out.println("<li><a href=\"#\">"+cur_name+"</a></li>");	//create list link for member of type
+							out.println("<li><a href=\"javascript:getcontrol(\'"+cur_type+"\',\'"+cur_name+"\')\">"+cur_name+"</a></li>");	//create list link for member of type
 						}
 					}
 					
@@ -87,11 +106,12 @@
 	            </ul>
 	          </div><!--/.well -->
 	        </div><!--/span-->
+			<script>
+				<%out.println("getcontrol('"+start_type+"','"+start_name+"');");%>
+			</script>
 	        <div class="span9">
-	          <div class="hero-unit">
-	            <h2>Door Control</h2>
-	            <p>Set the duration of time you want the door to open for and press the "Open" button.</p>
-	            <p><a class="btn btn-primary btn-large btn-success">Open</a></p>
+	          <div class="hero-unit" id="control_panel">
+	            
 				
 	          </div>
 	          
@@ -99,6 +119,7 @@
 	      </div><!--/row-->
 	
 	</div><!--/.fluid-container-->
+	
 	
 	<%	
     } else {
@@ -109,7 +130,6 @@
 			$("#signwhat").append("Sign In");
 			$("#signwhat").attr('href',"<%= userService.createLoginURL(request.getRequestURI()) %>");
 		 });
-
 
 	</script>
 <p>Hello!
