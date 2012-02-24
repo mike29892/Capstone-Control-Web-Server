@@ -15,4 +15,14 @@
         <property name="moduleType" direction="desc"/>
     </datastore-index>
     
+    <datastore-index kind="moduleEvent" ancestor="true" source="manual">
+        <property name="moduleType" direction="desc"/>
+    </datastore-index>
+    <datastore-index kind="moduleEvent" ancestor="true" source="manual">
+        <property name="date" direction="desc"/>
+    </datastore-index>
+    <datastore-index kind="moduleEvent" ancestor="true" source="manual">
+        <property name="action" direction="desc"/>
+    </datastore-index>
+    
 </datastore-indexes>

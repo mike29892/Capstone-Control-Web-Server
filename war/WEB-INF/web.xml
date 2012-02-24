@@ -98,5 +98,14 @@
         <servlet-name>RemoveModule</servlet-name>
         <url-pattern>/RemoveModule</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ControlUI</servlet-name>
+        <servlet-class>com.capstonecontrol.client.ControlUI</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ControlUI</servlet-name>
+        <url-pattern>/ControlUI</url-pattern>
+    </servlet-mapping>
 
 </web-app>
