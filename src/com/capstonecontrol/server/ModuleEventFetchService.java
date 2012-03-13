@@ -24,6 +24,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -72,7 +73,7 @@ public class ModuleEventFetchService {
 							(String) event.getProperty("moduleType"),
 							(String) event.getProperty("user"),
 							(String) event.getProperty("action"),
-							(String) event.getProperty("date"));
+							(java.sql.Date) event.getProperty("date"));
 					modulesEvent.add(moduleEvent);
 				}
 			}
