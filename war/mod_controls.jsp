@@ -23,8 +23,19 @@ if(mod_type.equals("Dimmer")){
 %>
 <link rel="stylesheet" href="front-end/jquery-ui-1.8.17.custom/css/smoothness/jquery-ui-1.8.17.custom.css">
 <script type="text/javascript" src="front-end/jquery-ui-1.8.17.custom/js/jquery-ui-1.8.17.custom.min.js"></script>
+<script src="front-end/js/jquery.ui.touch-punch.min.js"></script>
     <style>
-	
+	.ui-slider .ui-slider-handle {
+        position: absolute;
+        z-index: 2;
+        width: 1.8em;
+        height: 1.8em;
+        cursor: default;
+    }
+    .ui-slider-horizontal .ui-slider-handle {
+        top: -.6em;
+        margin-left: -.6em;
+    }
 	</style>
 	<script>
 		$(function() {
@@ -52,7 +63,9 @@ if(mod_type.equals("Dimmer")){
 				}
 			});
 			$( "#amount" ).html( $( "#Light_Dim" ).slider( "value" ) );
+			$('#Light_Dim').draggable();
 		});
+		
 		
 		</script>
 <div class="demo">
@@ -73,7 +86,19 @@ if(mod_type.equals("Dimmer")){
 }else if(mod_type.equals("Door Buzzer")){%>
 	<link rel="stylesheet" href="front-end/jquery-ui-1.8.17.custom/css/smoothness/jquery-ui-1.8.17.custom.css">
 	<script type="text/javascript" src="front-end/jquery-ui-1.8.17.custom/js/jquery-ui-1.8.17.custom.min.js"></script>
+	<script src="front-end/js/jquery.ui.touch-punch.min.js"></script>
 	<style>
+	.ui-slider .ui-slider-handle {
+        position: absolute;
+        z-index: 2;
+        width: 1.8em;
+        height: 1.8em;
+        cursor: default;
+    }
+    .ui-slider-horizontal .ui-slider-handle {
+        top: -.6em;
+        margin-left: -.6em;
+    }
 	</style>
 		<script>
 		$(function() {
@@ -102,6 +127,7 @@ if(mod_type.equals("Dimmer")){
 				}
 				});
 			}
+			$('#Duration').draggable();
 		});
 		</script>
 	<h2><%out.println(mod_name); %></h2>

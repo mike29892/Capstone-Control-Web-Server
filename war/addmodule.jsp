@@ -15,7 +15,7 @@
 <head>
     <title>Add Module</title>
 	<link rel="stylesheet" href="front-end/css/bootstrap.min.css">
-	<link rel="stylesheet" href="front-end/css/bootstrap-responsive.min.css">
+	
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<style type="text/css">
       body {
@@ -26,6 +26,7 @@
         padding: 9px 0;
       }
     </style>
+    <link rel="stylesheet" href="front-end/css/bootstrap-responsive.min.css">
 	</head>
   <body>
 	<%@ include file="nav_bar.jsp" %>

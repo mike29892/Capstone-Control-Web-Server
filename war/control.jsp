@@ -15,7 +15,7 @@
 <head>
     <title>Control Modules</title>
 	<link rel="stylesheet" href="front-end/css/bootstrap.min.css">
-	<link rel="stylesheet" href="front-end/css/bootstrap-responsive.min.css">
+	
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<style type="text/css">
       body {
@@ -26,6 +26,7 @@
         padding: 9px 0;
       }
     </style>
+    <link rel="stylesheet" href="front-end/css/bootstrap-responsive.min.css">
 	</head>
   <body>
 	
@@ -40,7 +41,7 @@
     User user = userService.getCurrentUser();
     if (user != null) {
 %>
-<div class="container-fluid">
+<div class="container">
 	<script>
 		$(document).ready(function() {
 			$("#signlinks").prepend("Logged in as ");
@@ -115,7 +116,7 @@
 				<%out.println("getcontrol('"+start_type+"','"+start_name+"');");%>
 			</script>
 	        <div class="span9">
-	          <div class="hero-unit" id="control_panel">
+	          <div class="well" id="control_panel">
 	            
 				
 	          </div>
