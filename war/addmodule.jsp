@@ -11,16 +11,21 @@
 <%@ page import="com.google.appengine.api.datastore.Key" %>
 <%@ page import="com.google.appengine.api.datastore.KeyFactory" %>
 
-<html>
+<html lang="en">
 <head>
+    <title>Add Module</title>
 	<link rel="stylesheet" href="front-end/css/bootstrap.min.css">
 	<link rel="stylesheet" href="front-end/css/bootstrap-responsive.min.css">
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<style>
-	      body {
-	        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-	      }
-	</style>
+	<style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
 	</head>
   <body>
 	<%@ include file="nav_bar.jsp" %>
@@ -60,17 +65,16 @@
 	</script>
 
 
-	<div class="row show-grid">
+	<div class="row-fluid">
 	    <div class="span6">
-			<div class="well">
 	    	<p>Hello, <%= user.getNickname() %>! You can add/remove modules to your account.</p>
-			<FORM METHOD="POST" ACTION="/addModule" class="form-horizontal">
+			<FORM METHOD="POST" ACTION="/addModule" class="well">
 
 
 				<div class="control-group">
 					<label class="control-label" for="moduleName">Module Name</label>
 					<div class="controls">
-						<INPUT TYPE="TEXT" NAME="moduleName" id="moduleName" SIZE=20>
+						<INPUT TYPE="TEXT" class="span6" NAME="moduleName" id="moduleName" SIZE=20>
 					</div>	
 				</div>
 
@@ -80,6 +84,8 @@
 							<select id="moduleType" name="moduleType">  
 			    				<option>Dimmer</option>
 			    				<option>Door Buzzer</option> 
+			    				<option>Power Monitor</option>
+			    				<option>Water Alarm</option>
 							</select> 
 					</div>	
 				</div>			
@@ -87,7 +93,7 @@
 				<div class="control-group">
 					<label class="control-label" for="moduleMacAddr">Module MAC Addr</label>
 					<div class="controls">
-						<INPUT TYPE="TEXT" NAME="moduleMacAddr" SIZE=20>
+						<INPUT TYPE="TEXT" class="span6" NAME="moduleMacAddr" SIZE=20>
 					</div>	
 				</div>		
 
@@ -96,7 +102,7 @@
 				</div>
 
 			</FORM>
-	</div>
+	
 	
 	    </div>
 	    <div class="span6">
