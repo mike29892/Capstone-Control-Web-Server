@@ -100,12 +100,22 @@
     </servlet-mapping>
     
     <servlet>
-        <servlet-name>ControlUI</servlet-name>
-        <servlet-class>com.capstonecontrol.client.ControlUI</servlet-class>
+        <servlet-name>ControlModuleServlet</servlet-name>
+        <servlet-class>com.capstonecontrol.client.ControlModuleServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ControlUI</servlet-name>
-        <url-pattern>/ControlUI</url-pattern>
+        <servlet-name>ControlModuleServlet</servlet-name>
+        <url-pattern>/ControlModuleServlet</url-pattern>
+    </servlet-mapping>
+    
+    
+    <servlet>
+        <servlet-name>LogModuleEventServlet</servlet-name>
+        <servlet-class>com.capstonecontrol.client.LogModuleEventServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogModuleEventServlet</servlet-name>
+        <url-pattern>/LogModuleEventServlet</url-pattern>
     </servlet-mapping>
 
 </web-app>

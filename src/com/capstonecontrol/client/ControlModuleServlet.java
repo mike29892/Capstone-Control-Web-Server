@@ -24,9 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
-public class ControlUI extends HttpServlet {
+public class ControlModuleServlet extends HttpServlet {
 	@SuppressWarnings("unused")
-	private static final Logger log = Logger.getLogger(ControlUI.class
+	private static final Logger log = Logger.getLogger(ControlModuleServlet.class
 			.getName());
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -62,10 +62,6 @@ public class ControlUI extends HttpServlet {
 
 		    // Get the response
 		    BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-		    String line;
-		    while ((line = rd.readLine()) != null) {
-		        // Process line...
-		    }
 		    wr.close();
 		    rd.close();
 		    

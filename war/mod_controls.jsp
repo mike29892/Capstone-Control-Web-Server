@@ -43,7 +43,7 @@ if(mod_type.equals("Dimmer")){
 					var message = ui.value;
 					$.ajax({
 					  type: 'POST',
-					  url: "/ControlUI",
+					  url: "/ControlModuleServlet",
 					  data: { "moduleName": name, "moduleType": type, "message": message, "action": "Dim"},
 					  success: function(resp){
 						//$("#control_panel").html(resp);
@@ -95,7 +95,7 @@ if(mod_type.equals("Dimmer")){
 				var message = "OPEN";
 				$.ajax({
 				  type: 'POST',
-				  url: "/ControlUI",
+				  url: "/ControlModuleServlet",
 				  data: { "moduleName": name, "moduleType": type, "message": message },
 				  success: function(resp){
 					//$("#control_panel").html(resp);
