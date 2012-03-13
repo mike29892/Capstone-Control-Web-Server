@@ -11,16 +11,21 @@
 <%@ page import="com.google.appengine.api.datastore.Key" %>
 <%@ page import="com.google.appengine.api.datastore.KeyFactory" %>
 
-<html>
+<html lang="en">
 <head>
+    <title>Control Modules</title>
 	<link rel="stylesheet" href="front-end/css/bootstrap.min.css">
 	<link rel="stylesheet" href="front-end/css/bootstrap-responsive.min.css">
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<style>
-	      body {
-	        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-	      }
-	</style>
+	<style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
 	</head>
   <body>
 	
@@ -35,7 +40,7 @@
     User user = userService.getCurrentUser();
     if (user != null) {
 %>
-<div class="container">
+<div class="container-fluid">
 	<script>
 		$(document).ready(function() {
 			$("#signlinks").prepend("Logged in as ");
@@ -59,7 +64,7 @@
 			
 	</script>
 	
-	<div class="container-fluid">
+	<div class="container-fluid" style="padding-top: 60px;">
 	  	<div class="row-fluid">
 	 		<div class="span3">
 	          <div class="well sidebar-nav">
