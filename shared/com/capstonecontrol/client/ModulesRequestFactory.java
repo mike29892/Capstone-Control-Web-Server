@@ -23,6 +23,7 @@ import com.google.web.bindery.requestfactory.shared.RequestFactory;
 import com.google.web.bindery.requestfactory.shared.ServiceName;
 
 import com.capstonecontrol.shared.MessageProxy;
+import com.capstonecontrol.shared.ModuleEventProxy;
 import com.capstonecontrol.shared.ModuleInfoProxy;
 import com.capstonecontrol.shared.RegistrationInfoProxy;
 
@@ -34,6 +35,15 @@ public interface ModulesRequestFactory extends RequestFactory {
 	     * Retrieve users modules from the server.
 	     */
 		Request<List<ModuleInfoProxy>> getModules();
+	  }
+	
+	
+	@ServiceName("com.capstonecontrol.server.ModuleEventFetchService")
+	  public interface ModuleEventFetchRequest extends RequestContext {
+	    /**
+	     * Retrieve users modules from the server.
+	     */
+		Request<List<ModuleEventProxy>> getModules();
 	  }
 	
 	
@@ -73,4 +83,6 @@ public interface ModulesRequestFactory extends RequestFactory {
   MessageRequest messageRequest();
 
   ModuleFetchRequest moduleFetchRequest();
+  
+  ModuleEventFetchRequest moduleEventFetchRequest();
 }

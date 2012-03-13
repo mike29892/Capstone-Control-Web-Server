@@ -46,7 +46,7 @@ public class LogModuleEventServlet extends HttpServlet {
 			username = req.getParameter("user");
 		}
 		if (username == null){
-			username = req.getParameter("user");
+			username = req.getParameter("user"); 
 		}
 
 		try {
