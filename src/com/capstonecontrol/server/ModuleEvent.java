@@ -1,9 +1,11 @@
 package com.capstonecontrol.server;
 
+
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
 
 @Entity
 public class ModuleEvent {
@@ -11,7 +13,7 @@ public class ModuleEvent {
 	String value;
 	String moduleType;
 	String user;
-	java.sql.Date date;
+	Date date;
 	String action;
 	@Id
 	Long id;
@@ -42,7 +44,7 @@ public class ModuleEvent {
 		this.moduleType = moduleType;
 		this.user = user;
 		this.action = action;
-		this.date = (java.sql.Date) date;
+		this.date = date;
 	}
 
 

@@ -1,5 +1,8 @@
 package com.capstonecontrol.shared;
 
+
+
+
 import java.util.Date;
 
 import com.google.web.bindery.requestfactory.shared.EntityProxy;
@@ -19,3 +22,4 @@ public interface ModuleEventProxy extends EntityProxy  {
 	Date getDate();
 
 }
+ 

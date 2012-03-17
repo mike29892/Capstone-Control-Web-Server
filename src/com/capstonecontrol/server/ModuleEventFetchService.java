@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import java.util.Date;
+
 public class ModuleEventFetchService {
 
 	private static final Logger log = Logger
@@ -73,7 +75,7 @@ public class ModuleEventFetchService {
 							(String) event.getProperty("moduleType"),
 							(String) event.getProperty("user"),
 							(String) event.getProperty("action"),
-							(java.sql.Date) event.getProperty("date"));
+							(Date) event.getProperty("date"));
 					modulesEvent.add(moduleEvent);
 				}
 			}
