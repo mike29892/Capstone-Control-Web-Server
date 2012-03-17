@@ -7,7 +7,7 @@ public class ModuleEventLocator extends Locator<ModuleEvent, Void> {
 
 	@Override
 	public ModuleEvent create(Class<? extends ModuleEvent> clazz) {
-		return new ModuleEvent(null, null, null, null, null);
+		return new ModuleEvent(null, null, null, null, null, null);
 	}
 
 	@Override

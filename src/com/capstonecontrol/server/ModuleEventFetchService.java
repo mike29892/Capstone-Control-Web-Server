@@ -75,7 +75,8 @@ public class ModuleEventFetchService {
 							(String) event.getProperty("moduleType"),
 							(String) event.getProperty("user"),
 							(String) event.getProperty("action"),
-							(Date) event.getProperty("date"));
+							(Date) event.getProperty("date"),
+							(String) event.getProperty("value"));
 					modulesEvent.add(moduleEvent);
 				}
 			}

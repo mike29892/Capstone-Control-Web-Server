@@ -20,6 +20,8 @@ public interface ModuleEventProxy extends EntityProxy  {
 	String getAction();
 	
 	Date getDate();
+	
+	String getValue();
 
 }
  
