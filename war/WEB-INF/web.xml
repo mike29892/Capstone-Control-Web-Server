@@ -117,5 +117,14 @@
         <servlet-name>LogModuleEventServlet</servlet-name>
         <url-pattern>/LogModuleEventServlet</url-pattern>
     </servlet-mapping>
+    
+        <servlet>
+        <servlet-name>LogModuleEventTestServlet</servlet-name>
+        <servlet-class>com.capstonecontrol.client.LogModuleEventTestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogModuleEventTestServlet</servlet-name>
+        <url-pattern>/LogModuleEventTestServlet</url-pattern>
+    </servlet-mapping>
 
 </web-app>
