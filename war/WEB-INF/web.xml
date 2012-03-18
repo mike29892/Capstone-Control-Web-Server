@@ -21,7 +21,7 @@
 
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>CapstoneControl.html</welcome-file>
+    <welcome-file>addmodule.jsp</welcome-file>
   </welcome-file-list>
 
   <!-- RequestFactory Servlet -->
