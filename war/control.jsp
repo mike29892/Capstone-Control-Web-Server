@@ -113,10 +113,12 @@
 	          </div><!--/.well -->
 	        </div><!--/span-->
 			<script>
+			
 				<%out.println("getcontrol('"+start_type+"','"+start_name+"');");%>
+		
 			</script>
 	        <div class="span9">
-	          <div class="well" id="control_panel">
+	          <div class="" id="control_panel">
 	            
 				
 	          </div>

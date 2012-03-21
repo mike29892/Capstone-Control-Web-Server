@@ -126,7 +126,17 @@
 		<servlet-name>LogModuleEventTestServlet</servlet-name>
 		<url-pattern>/LogModuleEventTestServlet</url-pattern>
 	</servlet-mapping>
-
+	
+ 	<servlet>
+		<servlet-name>ScheduleEvent</servlet-name>
+		<servlet-class>com.capstonecontrol.client.ScheduleEventServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ScheduleEvent</servlet-name>
+		<url-pattern>/ScheduleEvent</url-pattern>
+	</servlet-mapping>
+<!-- 
 	<servlet>
 		<servlet-name>PerformScheduledEvents</servlet-name>
 		<servlet-class>com.example.server.PerformScheduledEvents</servlet-class>
@@ -136,5 +146,7 @@
 		<servlet-name>PerformScheduledEvents</servlet-name>
 		<url-pattern>/PerformScheduledEvents</url-pattern>
 	</servlet-mapping>
+ -->
+ 
 
 </web-app>
