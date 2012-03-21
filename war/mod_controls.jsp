@@ -39,6 +39,14 @@ if(mod_type.equals("Dimmer")){
         top: -.6em;
         margin-left: -.6em;
     }
+    
+    /* css for timepicker */
+    .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; top: 60px; }
+    .ui-timepicker-div dl { text-align: left; }
+    .ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+    .ui-timepicker-div dl dd { margin: 0 10px 20px 65px; }
+    .ui-timepicker-div td { font-size: 90%; }
+    .ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
 	</style>
 	<script>
 		$(document).ready(function() {
@@ -67,9 +75,57 @@ if(mod_type.equals("Dimmer")){
 			});
 			$( "#amount" ).html( $( "#Light_Dim" ).slider( "value" ) );
 			$('#Light_Dim').draggable();
+			$('#sinTime').datetimepicker({
+                
+            });
+            $('#recTime').timepicker({
+               
+            });
 		
 		});
 		
+		 ///send control
+        function schedule(single){
+            var type = <%out.println("'"+mod_type+"'"+";"); %>
+            var name = <% out.println("'"+mod_name+"'"+";"); %>
+            if(single){
+                var value = $("#sinVal").val();
+                var time = $("#sinTime").val();
+                var eventType = 'single';
+            }else{
+                var value = $("#recVal").val();
+                var time = "01/01/1970 "+$("#recTime").val();
+                var eventType = 'recurr';
+            }
+            var thedays = new Array();
+            $('#Sun').is(':checked') ? thedays[0]=1 : thedays[0]=0;
+            $('#Mon').is(':checked') ? thedays[1]=1 : thedays[1]=0;
+            $('#Tues').is(':checked') ? thedays[2]=1 : thedays[2]=0;
+            $('#Wed').is(':checked') ? thedays[3]=1 : thedays[3]=0;
+            $('#Thurs').is(':checked') ? thedays[4]=1 : thedays[4]=0;
+            $('#Fri').is(':checked') ? thedays[5]=1 : thedays[5]=0;
+            $('#Sun').is(':checked') ? thedays[6]=1 : thedays[6]=0;
+            var thedaysfin = thedays.join('');
+            
+            var action = "DIM";
+            $.ajax({
+              type: 'POST',
+              url: "/ScheduleEvent",
+              data: { "moduleName": name, "moduleType": type, "value": value,
+              "action": action, "schedDate": time, "active": 1, "days": thedaysfin, "eventType":eventType },
+              success: function(resp){
+                //$("#control_panel").html(resp);
+                alert("Event Created");
+            }
+            });
+        }
+        
+         $('#recurr').click(function(){ 
+             schedule(0);
+         });
+         $('#single').click(function(){ 
+             schedule(1);
+         });  
 		
 		</script>
 
@@ -88,7 +144,81 @@ if(mod_type.equals("Dimmer")){
     </div>
     
     <div class="tab-pane fade" id="Schedule">
-             TEST    
+        <form class="well">
+            <fieldset>
+                <legend>Recurring Event</legend>
+                <div class="control-group">
+                    <label class="control-label" for="recTime">Time</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" id="recTime">
+                        <p class="help-block">Click the above box to open time selection box</p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inlineCheckboxes">Days</label>
+                    <div class="controls">
+                        <label class="checkbox inline">
+                            <input type="checkbox" id="Sun" value="1">Su.
+                        </label>
+                        <label class="checkbox inline">
+                            <input type="checkbox" id="Mon" value="1.">Mo.
+                        </label>
+                        <label class="checkbox inline">
+                            <input type="checkbox" id="Tues" value="1">Tu.
+                        </label>
+                        <label class="checkbox inline">
+                            <input type="checkbox" id="Wed" value="1">We.
+                        </label>
+                        <label class="checkbox inline">
+                            <input type="checkbox" id="Thurs" value="1">Th.
+                        </label>
+                        <label class="checkbox inline">
+                            <input type="checkbox" id="Fri" value="1">Fr.
+                        </label>
+                        <label class="checkbox inline">
+                            <input type="checkbox" id="Sat" value="1">Sa.
+                        </label>                        
+                       </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="recVal">Value</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" id="recVal">
+                        <p class="help-block">Enter A Brightness Valu</p>
+                    </div>
+                </div>
+                
+                               
+                
+            </fieldset>
+       </form>
+        <div class="">
+                    <button id="recurr" style="margin-bottom:19px;" class="btn btn-primary">Create Recurring Event</button>                    
+                </div>
+        
+        <form class="well">
+            <fieldset>
+                <legend>One Time Event</legend>
+                <div class="control-group">
+                    <label class="control-label" for="sinTime">Time</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" id="sinTime">
+                        <p class="help-block">Click the above box to open time selection box</p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="sinVal">Value</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" id="sinVal">
+                        <p class="help-block">Enter A Brightness Value</p>
+                    </div>
+                </div>
+                
+            </fieldset>
+       </form>
+        <div class="">
+                    <button id="single" class="btn btn-info">Create Single Event</button>                    
+        </div>   
     </div>
             
 </div>
@@ -233,7 +363,7 @@ if(mod_type.equals("Dimmer")){
     
     <div class="tab-pane fade" id="Schedule">
         
-        <form class="form-horizontal">
+        <form class="well">
             <fieldset>
                 <legend>Recurring Event</legend>
                 <div class="control-group">
@@ -281,11 +411,11 @@ if(mod_type.equals("Dimmer")){
                 
             </fieldset>
        </form>
-        <div class="form-actions">
-                    <button id="recurr" class="btn btn-primary">Create Event</button>                    
-                </div>
+        <div class="">
+                    <button id="recurr" style="margin-bottom:19px;" class="btn btn-primary">Create Recurring Event</button>                    
+        </div>
         
-        <form class="form-horizontal">
+        <form class="well">
             <fieldset>
                 <legend>One Time Event</legend>
                 <div class="control-group">
@@ -305,9 +435,9 @@ if(mod_type.equals("Dimmer")){
                 
             </fieldset>
        </form>
-        <div class="form-actions">
-                    <button id="single" class="btn btn-primary">Create Event</button>                    
-                </div>
+        <div class="">
+             <button id="single" class="btn btn-info">Create Single Event</button>                    
+       </div>
     </div>
             
 </div>   
