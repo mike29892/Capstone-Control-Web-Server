@@ -40,29 +40,19 @@ public class ScheduleEventServlet extends HttpServlet {
 	        String moduleName = req.getParameter("moduleName");	        
 	        String moduleType = req.getParameter("moduleType");
 	        String theaction = req.getParameter("action");
-	        String thedays = req.getParameter("days");
+	        String Sun = req.getParameter("Sun");
+	        String Mon = req.getParameter("Mon");
+	        String Tue = req.getParameter("Tue");
+	        String Wed = req.getParameter("Wed");
+	        String Thu = req.getParameter("Thu");
+	        String Fri = req.getParameter("Fri");
+	        String Sat = req.getParameter("Sat");
 	        String theval = req.getParameter("value");
 	        String theschedDate = req.getParameter("schedDate");
 	        String isactive = req.getParameter("active");
-	        String eveType = req.getParameter("eventType");
+	        //String eveType = req.getParameter("eventType");
 	        
-	        Date date = new Date();
-	        
-	        /*
-	        //parse date string
-	        String[] datesplit = theschedDate.split("/");
-	        //04/19/2012 13:21
-	        
-	        int month = Integer.parseInt( datesplit[0] );
-	        int day = Integer.parseInt( datesplit[1] );
-	        String[] datesplit2 = datesplit[2].split(" ");	        
-	        int year = Integer.parseInt( datesplit2[0] );
-	        String[] datesplit3 = datesplit2[1].split(":");	 
-	        int hours = Integer.parseInt( datesplit3[0] );
-	        int minutes = Integer.parseInt( datesplit3[1] );
-	        int seconds = 0;
-	        */
-	        
+	        Date date = new Date();	        
 	        Date finalschedDate = new Date();
 	        
 	        String Parsestring;
@@ -81,14 +71,20 @@ public class ScheduleEventServlet extends HttpServlet {
 				finalschedDate.setTime(0);
 			}
 	      
-	        Entity module = new Entity("schedModuleEvent", moduleKey);
+	        Entity module = new Entity("scheduleModuleEvent", moduleKey);
 	        module.setProperty("user", username);
 	        module.setProperty("date", date);
 	        module.setProperty("moduleName", moduleName);
 	        module.setProperty("moduleType", moduleType);
 	        module.setProperty("action", theaction);
 	        module.setProperty("value", theval);
-	        module.setProperty("days", thedays);
+	        module.setProperty("Sun", Sun);
+	        module.setProperty("Mon", Mon);
+	        module.setProperty("Tue", Tue);
+	        module.setProperty("Wed", Wed);
+	        module.setProperty("Thu", Thu);
+	        module.setProperty("Fri", Fri);
+	        module.setProperty("Sat", Sat);
 	        module.setProperty("schedDate", finalschedDate);
 	        module.setProperty("active", isactive);
 	        

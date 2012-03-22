@@ -88,36 +88,81 @@ if(mod_type.equals("Dimmer")){
         function schedule(single){
             var type = <%out.println("'"+mod_type+"'"+";"); %>
             var name = <% out.println("'"+mod_name+"'"+";"); %>
+            var Sun = 0;
+            var Mon = 0;
+            var Tue = 0;
+            var Wed = 0;
+            var Thu = 0;
+            var Fri = 0;
+            var Sat = 0;
+
             if(single){
                 var value = $("#sinVal").val();
                 var time = $("#sinTime").val();
                 var eventType = 'single';
+                var dayw = getdayofweekBIN(time);
+                switch (dayw)
+                {
+                case 0:
+                  Sun=1;              
+                  break;
+                case 1:
+                  Mon=1;              
+                  break;
+                case 2:  
+                  Tue=1;          
+                  break;
+                case 3: 
+                  Wed=1;           
+                  break;
+                case 4:  
+                  Thu=1;          
+                  break;
+                case 5:  
+                  Fri=1;          
+                  break;
+                case 6: 
+                  Sat=1;           
+                  break;
+               default:
+               }
             }else{
                 var value = $("#recVal").val();
                 var time = "01/01/1970 "+$("#recTime").val();
                 var eventType = 'recurr';
+                var thedays = new Array();
+                $('#Sun').is(':checked') ? Sun=1 : Sun=0;
+                $('#Mon').is(':checked') ? Mon=1 : Mon=0;
+                $('#Tues').is(':checked') ? Tue=1 : Tue=0;
+                $('#Wed').is(':checked') ? Wed=1 : Wed=0;
+                $('#Thurs').is(':checked') ? Thu=1 : Thu=0;
+                $('#Fri').is(':checked') ? Fri=1 : Fri=0;
+                $('#Sun').is(':checked') ? Sat=1 : Sat=0;                
             }
-            var thedays = new Array();
-            $('#Sun').is(':checked') ? thedays[0]=1 : thedays[0]=0;
-            $('#Mon').is(':checked') ? thedays[1]=1 : thedays[1]=0;
-            $('#Tues').is(':checked') ? thedays[2]=1 : thedays[2]=0;
-            $('#Wed').is(':checked') ? thedays[3]=1 : thedays[3]=0;
-            $('#Thurs').is(':checked') ? thedays[4]=1 : thedays[4]=0;
-            $('#Fri').is(':checked') ? thedays[5]=1 : thedays[5]=0;
-            $('#Sun').is(':checked') ? thedays[6]=1 : thedays[6]=0;
-            var thedaysfin = thedays.join('');
-            
+                        
             var action = "DIM";
             $.ajax({
               type: 'POST',
               url: "/ScheduleEvent",
               data: { "moduleName": name, "moduleType": type, "value": value,
-              "action": action, "schedDate": time, "active": 1, "days": thedaysfin, "eventType":eventType },
+              "action": action, "schedDate": time, "active": 1, "eventType":eventType,
+              "Sun": Sun, "Mon": Mon, "Tue":Tue, "Wed":Wed, "Thu":Thu, "Fri":Fri, "Sat":Sat },
               success: function(resp){
                 //$("#control_panel").html(resp);
                 alert("Event Created");
             }
             });
+        }
+        
+        //get the week day binary string
+        function getdayofweekBIN(thedate){
+            //03/01/2012 08:45
+            datesp = thedate.split("/");
+            year = datesp[2].split(" ");            
+            newDate = new Date(year[0], datesp[0]-1, datesp[1]);
+            var daystring = '0000000';
+            var newDate2=newDate.getDay();            
+            return newDate2;
         }
         
          $('#recurr').click(function(){ 
@@ -137,10 +182,12 @@ if(mod_type.equals("Dimmer")){
 <div id="myTabContent" class="tab-content">
     
     <div class="tab-pane fade in active" id="Control">
+        
         <h2><%out.println(mod_name); %></h2>
         <p>Drag the slider to adjust brightness of the lights.</p>
         <p id="amount" style="border:0;width:50px;font-weight:bold;"></p>
-        <div id="Light_Dim"></div>       
+        <div id="Light_Dim"></div>  
+            
     </div>
     
     <div class="tab-pane fade" id="Schedule">
@@ -309,12 +356,12 @@ if(mod_type.equals("Dimmer")){
                 var value = $("#sinVal").val();
                 var time = $("#sinTime").val();
                 var eventType = 'single';
+                var thedaysfin = getdayofweekBIN(time);
             }else{
                 var value = $("#recVal").val();
                 var time = "01/01/1970 "+$("#recTime").val();
                 var eventType = 'recurr';
-            }
-            var thedays = new Array();
+                var thedays = new Array();
             $('#Sun').is(':checked') ? thedays[0]=1 : thedays[0]=0;
             $('#Mon').is(':checked') ? thedays[1]=1 : thedays[1]=0;
             $('#Tues').is(':checked') ? thedays[2]=1 : thedays[2]=0;
@@ -323,6 +370,7 @@ if(mod_type.equals("Dimmer")){
             $('#Fri').is(':checked') ? thedays[5]=1 : thedays[5]=0;
             $('#Sun').is(':checked') ? thedays[6]=1 : thedays[6]=0;
             var thedaysfin = thedays.join('');
+            }            
             
             var action = "OPEN";
             $.ajax({
@@ -335,6 +383,44 @@ if(mod_type.equals("Dimmer")){
                 alert("Event Created");
             }
             });
+        }
+        
+        //get the week day binary string
+        function getdayofweekBIN(thedate){
+            //03/01/2012 08:45
+            datesp = thedate.split("/");
+            year = datesp[2].split(" ")
+            
+            newDate = new Date(year[0], datesp[0]-1, datesp[1]);
+            var daystring = '0000000';
+            var newDate2=newDate.getDay();
+            
+            switch (newDate2)
+            {
+            case 0:
+              daystring = '1000000';              
+              break;
+            case 1:
+              daystring = '0100000';              
+              break;
+            case 2:  
+              daystring = '0010000';          
+              break;
+            case 3: 
+              daystring = '0001000';           
+              break;
+            case 4:  
+              daystring = '0000100';          
+              break;
+            case 5:  
+              daystring = '0000010';          
+              break;
+            case 6: 
+              daystring = '0000001';           
+              break;
+            default:
+            }
+            return daystring;
         }
         
          $('#recurr').click(function(){ 

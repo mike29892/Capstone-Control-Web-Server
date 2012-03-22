@@ -136,16 +136,25 @@
 		<servlet-name>ScheduleEvent</servlet-name>
 		<url-pattern>/ScheduleEvent</url-pattern>
 	</servlet-mapping>
- <!--
+
 	<servlet>
 		<servlet-name>PerformScheduledEvents</servlet-name>
-		<servlet-class>com.example.server.PerformScheduledEvents</servlet-class>
+		<servlet-class>com.capstonecontrol.server.PerformScheduledEvents</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>PerformScheduledEvents</servlet-name>
 		<url-pattern>/PerformScheduledEvents</url-pattern>
 	</servlet-mapping>
--->
+	
+	<servlet>
+		<servlet-name>InputPowerMonitorData</servlet-name>
+		<servlet-class>com.capstonecontrol.server.InputPowerMonitorData</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InputPowerMonitorData</servlet-name>
+		<url-pattern>/InputPowerMonitorData</url-pattern>
+	</servlet-mapping>
+
  
 
 </web-app>

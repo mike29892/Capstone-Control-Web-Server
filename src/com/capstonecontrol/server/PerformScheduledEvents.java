@@ -6,12 +6,16 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -45,10 +49,19 @@ public class PerformScheduledEvents extends HttpServlet {
 		currentDate = new Date();
 		// zero seconds
 		currentDate.setSeconds(0);
+		
+		////here for outputting html to debug***********************
+		resp.setContentType("text/html");
+	    PrintWriter out = resp.getWriter();
+	    out.println("<h1>results</h1><br/>");
+	    
+	    
 		// now get the list of all scheduled events
-		getScheduledEvents();
+		getScheduledEvents(out);
 		// now check if any need to be ran
-		checkEventsToRun();
+		//checkEventsToRun();
+		
+		
 	}
 
 	/*
@@ -199,19 +212,74 @@ public class PerformScheduledEvents extends HttpServlet {
 	/*
 	 * Pulls scheduled events from the data store
 	 */
-	private void getScheduledEvents() {
+	private void getScheduledEvents(PrintWriter out) {
 		// clear scheduledModuleEvents
-		scheduledModuleEvents.clear();
+		//scheduledModuleEvents.clear();
 		// String username = user.getNickname();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
+		
+		/////////////////////////////////////
+		//get date and day of the week///////
+		//than query for less than or equal//
+		/////////////////////////////////////
+		Date today = new Date();
+		int theday = today.getDay();
+		String bin = "";
+		 switch (theday) {
+		 case 0:  bin = "Sun";
+         		  break;  
+         case 1:  bin = "Mon";
+                  break;
+         case 2:  bin = "Tues";
+                  break;
+         case 3:  bin = "Wed";
+                  break;
+         case 4:  bin = "Thu";
+                  break;
+         case 5:  bin = "Fri";
+                  break;
+         case 6:  bin = "Sat";
+                  break;                
+        }
+		
+		// The Query interface assembles a query
+		Query q = new Query("scheduleModuleEvent");
+		//filter for events on that day		
+		q.addFilter(bin, FilterOperator.EQUAL, "1");
+		//q.addFilter("active", FilterOperator.EQUAL, 1);
+		//q.addSort("schedDate", SortDirection.DESCENDING); 
+
+		// PreparedQuery contains the methods for fetching query results
+		// from the datastore
+		PreparedQuery pq = datastore.prepare(q);
+		
+
+		for (Entity result : pq.asIterable()) {
+		  String action = (String) result.getProperty("action");
+		  String date = result.getProperty("date").toString();
+		  //String days = (String) result.getProperty("days");
+		  String modname = (String) result.getProperty("moduleName");
+		  String modtype = (String) result.getProperty("moduleType");
+		  String scheddate = result.getProperty("schedDate").toString();
+		  String user = (String) result.getProperty("user");
+		  String val = (String) result.getProperty("value");
+		  
+		  out.println(action + "---" + date + "---" + modname + "---" + modtype+ "---"  + scheddate + "---"  + user + "---" + val+"<br/>");
+		}
+		
+		
+		/*
 		Key moduleKey = KeyFactory.createKey("user", null);
 		// Run an ancestor query to ensure we see the most up-to-date
-		Query query = new Query("scheduledModuleEvent", moduleKey).addSort(
+		Query query = new Query("schedModuleEvent", moduleKey).addSort(
 				"date", Query.SortDirection.DESCENDING);
 		// use max int for limit size
 		scheduledModuleEvents = datastore.prepare(query).asList(
 				FetchOptions.Builder.withLimit(2147483647));
+		*/
+		
+		
 
 	}
 

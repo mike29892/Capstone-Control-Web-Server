@@ -36,4 +36,9 @@
         <property name="date" direction="desc"/>
     </datastore-index>
     
+    <datastore-index kind="schedModuleEvent" ancestor="false" source="manual">
+        <property name="active" direction="asc"/>
+        <property name="days" direction="asc"/>
+    </datastore-index>
+    
 </datastore-indexes>
