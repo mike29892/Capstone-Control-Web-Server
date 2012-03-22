@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<cronentries/>
+<!--
+<cronentries>
+  <cron>
+    <url>/PerformScheduledEvents2</url>
+    <description>Check for scheduled module events and perform them</description>
+    <schedule>every 1 minutes</schedule>
+    <target>version-2</target>
+  </cron>
+
+</cronentries>-->
