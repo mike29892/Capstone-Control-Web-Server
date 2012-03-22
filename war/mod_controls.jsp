@@ -184,7 +184,7 @@ if(mod_type.equals("Dimmer")){
                     <label class="control-label" for="recVal">Value</label>
                     <div class="controls">
                         <input type="text" class="input-xlarge" id="recVal">
-                        <p class="help-block">Enter A Brightness Valu</p>
+                        <p class="help-block">Enter A Brightness Value</p>
                     </div>
                 </div>
                 
@@ -403,7 +403,7 @@ if(mod_type.equals("Dimmer")){
                     <label class="control-label" for="recVal">Value</label>
                     <div class="controls">
                         <input type="text" class="input-xlarge" id="recVal">
-                        <p class="help-block">Enter an appropriate value for module</p>
+                        <p class="help-block">Enter time for door to open</p>
                     </div>
                 </div>
                 
@@ -429,7 +429,7 @@ if(mod_type.equals("Dimmer")){
                     <label class="control-label" for="sinVal">Value</label>
                     <div class="controls">
                         <input type="text" class="input-xlarge" id="sinVal">
-                        <p class="help-block">Enter an appropriate value for module</p>
+                        <p class="help-block">Enter time for door to open</p>
                     </div>
                 </div>
                 

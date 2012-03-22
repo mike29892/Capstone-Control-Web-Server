@@ -136,17 +136,16 @@
 		<servlet-name>ScheduleEvent</servlet-name>
 		<url-pattern>/ScheduleEvent</url-pattern>
 	</servlet-mapping>
-<!-- 
+ <!--
 	<servlet>
 		<servlet-name>PerformScheduledEvents</servlet-name>
 		<servlet-class>com.example.server.PerformScheduledEvents</servlet-class>
 	</servlet>
-
 	<servlet-mapping>
 		<servlet-name>PerformScheduledEvents</servlet-name>
 		<url-pattern>/PerformScheduledEvents</url-pattern>
 	</servlet-mapping>
- -->
+-->
  
 
 </web-app>
