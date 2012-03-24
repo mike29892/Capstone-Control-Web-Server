@@ -31,14 +31,14 @@
     <datastore-index kind="schedModuleEvent" ancestor="true" source="manual">
         <property name="schedDate" direction="desc"/>
     </datastore-index>
-    
-    <datastore-index kind="schedModuleEvent" ancestor="true" source="manual">
+            
+    <datastore-index kind="scheduleModuleEvent" ancestor="true" source="manual">
         <property name="date" direction="desc"/>
     </datastore-index>
     
-    <datastore-index kind="schedModuleEvent" ancestor="false" source="manual">
-        <property name="active" direction="asc"/>
-        <property name="days" direction="asc"/>
+    <datastore-index kind="scheduleModuleEvent" ancestor="false" source="manual">
+        <property name="Sat" direction="asc"/>
+        <property name="date" direction="desc"/>
     </datastore-index>
     
 </datastore-indexes>

@@ -60,7 +60,7 @@ public class ModuleEventFetchService {
 			Query query = new Query("moduleEvent", moduleKey).addSort("date",
 					Query.SortDirection.DESCENDING);
 			events = datastore.prepare(query).asList(
-					FetchOptions.Builder.withLimit(15));
+					FetchOptions.Builder.withLimit(2147483647));
 			if (events.isEmpty()) {
 
 				// There are no modules added to your account.

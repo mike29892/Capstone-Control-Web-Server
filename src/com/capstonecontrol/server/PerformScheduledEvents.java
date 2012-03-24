@@ -19,8 +19,12 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -30,8 +34,10 @@ import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
 public class PerformScheduledEvents extends HttpServlet {
-	List<Entity> scheduledModuleEvents;
-	Date currentDate;
+	//List<Entity> scheduledModuleEvents;
+	ArrayList<Entity> EVENTS = new ArrayList<Entity>(); 
+	ArrayList<String> EVENTSsched = new ArrayList<String>();
+	Date currentDate = new Date();
 
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger
@@ -56,79 +62,95 @@ public class PerformScheduledEvents extends HttpServlet {
 	    out.println("<h1>results</h1><br/>");
 	    
 	    
-		// now get the list of all scheduled events
+		// now get the arraylist of all scheduled events
 		getScheduledEvents(out);
-		// now check if any need to be ran
-		//checkEventsToRun();
+		// now remove the ones that shouldn't run
+		//checkEventsToRun(out);
+		//finally go through array and execute them
 		
 		
 	}
 
-	/*
-	 * Checks the found schedules events to see if they should be ran
-	 */
-	private void checkEventsToRun() {
-		int scheduledDays;
-		Date scheduledDate;
-		for (Entity scheduledModuleEvent : scheduledModuleEvents) {
-			scheduledDays = (Integer) scheduledModuleEvent
-					.getProperty("scheduledDays");
-			scheduledDate = (Date) scheduledModuleEvent
-					.getProperty("scheduledDate");
-			if (scheduledDays == 0) {
-				// then scheduled event is a one time event
-				if (checkOneTimeEvent(scheduledDate))
-					doEvent(scheduledModuleEvent);
-				continue;
-			} else {
-				// the scheduled event is reoccuring based on the days of the
-				// week so figure out which days based on the int
-				if (checkWeekEvent(scheduledDays, scheduledDate))
-					doEvent(scheduledModuleEvent);
-			}
-
+	/*Execute all events in the list */
+	private void RunEvents(PrintWriter out) {
+		out.println(EVENTS.size() +"is the size");
+		for(int i=0; i<EVENTS.size(); i++){			
+			doEvent(EVENTS.get(i));
+			
 		}
+		
 	}
+
+
+	/*Check all arraylist entities and 
+	 * remove ones that shouldn't run*/
+	private void checkEventsToRun(PrintWriter out) {
+		out.println("the current time is " + currentDate.toString() + "<br/>");
+		for(int i=0; i<EVENTS.size(); i++){
+			
+			String sched = new String(EVENTSsched.get(i));
+			//Sat Mar 24 21:15:00 UTC 2012
+			String[] sp1 = new String[0];
+			String[] time = new String[0];
+			sp1 = sched.split(" ");
+			time = sp1[3].split(":");
+			int hours = new Integer(Integer.parseInt(time[0]));
+			int minutes = new Integer(Integer.parseInt(time[1]));
+			
+			String active = (String) EVENTS.get(i).getProperty("active");
+			String value = (String) EVENTS.get(i).getProperty("value");
+			//check it versus curent time
+			 out.println("<br/>"+value + "    " +currentDate.getHours() + " == "+ hours +" and "+ currentDate.getMinutes()+ " == " +minutes + " active is " + active);
+			
+			 
+			 
+			 if( (currentDate.getHours() == hours ) && (currentDate.getMinutes() == minutes) && (Integer.parseInt(active)==1)){
+				//left in arraylist	
+				doEvent(EVENTS.get(i));
+				out.println(i + " checked<br/>");
+			}else{
+				out.println(i + " BAD<br/>");
+			}
+		}
+		
+	}
+
+
 
 	/*
 	 * runs the scheduled event
 	 */
 	private void doEvent(Entity scheduledModuleEvent) {
+		
+		
 		// do post to MQTT based on the scheduled event
-		String username = (String) scheduledModuleEvent.getProperty("username");
-		String modulename = (String) scheduledModuleEvent
-				.getProperty("moduleName");
-		String message = (String) scheduledModuleEvent
-				.getProperty("message");
-		String moduletype = (String) scheduledModuleEvent
-				.getProperty("moduleType");
-		String action = (String) scheduledModuleEvent
-				.getProperty("action");
+		String username = (String) scheduledModuleEvent.getProperty("user");
+		String modulename = (String) scheduledModuleEvent.getProperty("moduleName");
+		String value = (String) scheduledModuleEvent.getProperty("value");
+		String moduletype = (String) scheduledModuleEvent.getProperty("moduleType");
+		String action = (String) scheduledModuleEvent.getProperty("action");
+		///fordebugging
+		String time = scheduledModuleEvent.getProperty("schedDate").toString();
 		String mqttchan = "/" + username + "/" + modulename;
 		try {
 			// Construct data
-			String data = URLEncoder.encode("where", "UTF-8") + "="
-					+ URLEncoder.encode(mqttchan, "UTF-8");
-			data += "&" + URLEncoder.encode("message", "UTF-8") + "="
-					+ URLEncoder.encode(message, "UTF-8");
+			String data = URLEncoder.encode("where", "UTF-8") + "="+ URLEncoder.encode(mqttchan, "UTF-8");
+			data += "&" + URLEncoder.encode("message", "UTF-8") + "="+ URLEncoder.encode(value+time, "UTF-8");
 
 			// Send data
 			URL url = new URL("http://23.21.229.136/message.php");
 			URLConnection conn = url.openConnection();
 			conn.setDoOutput(true);
-			OutputStreamWriter wr = new OutputStreamWriter(
-					conn.getOutputStream());
+			OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 			wr.write(data);
 			wr.flush();
 
 			// Get the response
-			BufferedReader rd = new BufferedReader(new InputStreamReader(
-					conn.getInputStream()));
+			BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			wr.close();
 			rd.close();
 
 			// log the event in datastore
-
 			Key moduleKey = KeyFactory.createKey("user", username);
 			Date date = new Date();
 			Entity actionmodule = new Entity("moduleEvent", moduleKey);
@@ -137,7 +159,7 @@ public class PerformScheduledEvents extends HttpServlet {
 			actionmodule.setProperty("moduleName", modulename);
 			actionmodule.setProperty("moduleType", moduletype);
 			actionmodule.setProperty("action", action);
-			actionmodule.setProperty("value", message);
+			actionmodule.setProperty("value", value);
 
 			DatastoreService datastore = DatastoreServiceFactory
 					.getDatastoreService();
@@ -147,67 +169,6 @@ public class PerformScheduledEvents extends HttpServlet {
 		}
 	}
 
-	/*
-	 * Returns true if the event needs to be ran
-	 */
-	@SuppressWarnings("deprecation")
-	private boolean checkWeekEvent(int scheduledDays, Date scheduledDate) {
-		Boolean Monday = false, Tuesday = false, Wednesday = false, Thursday = false, Friday = false, Saturday = false, Sunday = false;
-		if (scheduledDays > 63) {
-			Monday = true;
-			scheduledDays = scheduledDays - 64;
-		}
-		if (scheduledDays > 31) {
-			Tuesday = true;
-			scheduledDays = scheduledDays - 32;
-		}
-		if (scheduledDays > 15) {
-			Wednesday = true;
-			scheduledDays = scheduledDays - 16;
-		}
-		if (scheduledDays > 7) {
-			Thursday = true;
-			scheduledDays = scheduledDays - 8;
-		}
-		if (scheduledDays > 3) {
-			Friday = true;
-			scheduledDays = scheduledDays - 4;
-		}
-		if (scheduledDays > 1) {
-			Saturday = true;
-			scheduledDays = scheduledDays - 2;
-		}
-		if (scheduledDays == 1) {
-			Sunday = true;
-		}
-
-		// 0 sunday, 1 monday , ...
-		if (currentDate.getDay() == 0 && Sunday)
-			return true;
-		if (currentDate.getDay() == 1 && Monday)
-			return true;
-		if (currentDate.getDay() == 2 && Tuesday)
-			return true;
-		if (currentDate.getDay() == 3 && Wednesday)
-			return true;
-		if (currentDate.getDay() == 4 && Thursday)
-			return true;
-		if (currentDate.getDay() == 5 && Friday)
-			return true;
-		if (currentDate.getDay() == 6 && Saturday)
-			return true;
-
-		return false;
-	}
-
-	/*
-	 * Returns true if the event needs to be ran
-	 */
-	private boolean checkOneTimeEvent(Date scheduledDate) {
-		if (currentDate.getTime() == scheduledDate.getTime())
-			return true;
-		return false;
-	}
 
 	/*
 	 * Pulls scheduled events from the data store
@@ -218,7 +179,7 @@ public class PerformScheduledEvents extends HttpServlet {
 		// String username = user.getNickname();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		
+		EVENTS.clear();
 		/////////////////////////////////////
 		//get date and day of the week///////
 		//than query for less than or equal//
@@ -243,19 +204,23 @@ public class PerformScheduledEvents extends HttpServlet {
                   break;                
         }
 		
+		 out.println(currentDate.getHours() + " and " +currentDate.getMinutes() + "<br/>");
 		// The Query interface assembles a query
 		Query q = new Query("scheduleModuleEvent");
 		//filter for events on that day		
 		q.addFilter(bin, FilterOperator.EQUAL, "1");
-		//q.addFilter("active", FilterOperator.EQUAL, 1);
-		//q.addSort("schedDate", SortDirection.DESCENDING); 
-
+		q.addFilter("hours", FilterOperator.EQUAL, currentDate.getHours());
+		q.addFilter("minutes", FilterOperator.EQUAL, currentDate.getMinutes());
+		
+	
 		// PreparedQuery contains the methods for fetching query results
 		// from the datastore
 		PreparedQuery pq = datastore.prepare(q);
 		
 
 		for (Entity result : pq.asIterable()) {
+		  doEvent(result);
+		  EVENTS.add(result);
 		  String action = (String) result.getProperty("action");
 		  String date = result.getProperty("date").toString();
 		  //String days = (String) result.getProperty("days");
@@ -266,18 +231,11 @@ public class PerformScheduledEvents extends HttpServlet {
 		  String val = (String) result.getProperty("value");
 		  
 		  out.println(action + "---" + date + "---" + modname + "---" + modtype+ "---"  + scheddate + "---"  + user + "---" + val+"<br/>");
+		  EVENTSsched.add(scheddate);
 		}
 		
 		
-		/*
-		Key moduleKey = KeyFactory.createKey("user", null);
-		// Run an ancestor query to ensure we see the most up-to-date
-		Query query = new Query("schedModuleEvent", moduleKey).addSort(
-				"date", Query.SortDirection.DESCENDING);
-		// use max int for limit size
-		scheduledModuleEvents = datastore.prepare(query).asList(
-				FetchOptions.Builder.withLimit(2147483647));
-		*/
+		
 		
 		
 

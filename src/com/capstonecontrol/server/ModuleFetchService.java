@@ -57,7 +57,7 @@ public class ModuleFetchService {
 			Query query = new Query("moduleInfo", moduleKey).addSort("date",
 					Query.SortDirection.DESCENDING);
 			modules = datastore.prepare(query).asList(
-					FetchOptions.Builder.withLimit(15));
+					FetchOptions.Builder.withLimit(2147483647));
 			if (modules.isEmpty()) {
 
 				// There are no modules added to your account.

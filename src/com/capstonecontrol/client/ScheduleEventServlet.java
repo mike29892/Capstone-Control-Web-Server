@@ -50,6 +50,7 @@ public class ScheduleEventServlet extends HttpServlet {
 	        String theval = req.getParameter("value");
 	        String theschedDate = req.getParameter("schedDate");
 	        String isactive = req.getParameter("active");
+	        String offset = req.getParameter("offset");
 	        //String eveType = req.getParameter("eventType");
 	        
 	        Date date = new Date();	        
@@ -62,7 +63,7 @@ public class ScheduleEventServlet extends HttpServlet {
 	        }else{
 	        	Parsestring = "hh:mm";
 	        }*/
-	        Parsestring = "MM/dd/yyyy hh:mm";
+	        Parsestring = "MM/dd/yyyy kk:mm";
 			try {
 				finalschedDate = new SimpleDateFormat(Parsestring, Locale.ENGLISH).parse(theschedDate);
 			} catch (ParseException e) {
@@ -70,6 +71,11 @@ public class ScheduleEventServlet extends HttpServlet {
 				//e.printStackTrace();
 				finalschedDate.setTime(0);
 			}
+			
+			///here we use the offset to calculate the UTC time of the 
+			//scheduled event
+			int calcoff = finalschedDate.getHours() + (Integer.parseInt(offset)/60);
+			finalschedDate.setHours(calcoff);
 	      
 	        Entity module = new Entity("scheduleModuleEvent", moduleKey);
 	        module.setProperty("user", username);
@@ -86,6 +92,8 @@ public class ScheduleEventServlet extends HttpServlet {
 	        module.setProperty("Fri", Fri);
 	        module.setProperty("Sat", Sat);
 	        module.setProperty("schedDate", finalschedDate);
+	        module.setProperty("hours", finalschedDate.getHours());
+	        module.setProperty("minutes", finalschedDate.getMinutes());
 	        module.setProperty("active", isactive);
 	        
 	        
