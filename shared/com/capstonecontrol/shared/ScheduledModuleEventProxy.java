@@ -14,7 +14,7 @@ public interface ScheduledModuleEventProxy extends EntityProxy {
 	
 	public boolean getReoccurence();
 	
-	public String getSchedDate();
+	public Date getSchedDate();
 	
 	public int getMinutes();
 
