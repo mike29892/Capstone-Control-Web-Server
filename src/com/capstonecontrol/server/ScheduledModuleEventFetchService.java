@@ -84,8 +84,13 @@ public class ScheduledModuleEventFetchService {
 							(Boolean) event.getProperty("Fri"),
 							(Boolean) event.getProperty("Sat"),
 							(Boolean) event.getProperty("Sun"),
-							(Boolean) event.getProperty("active"), (Integer) event.getProperty("hours"), (Integer) event.getProperty("minutes"),
-							(String) event.getProperty("schedDate"), (Integer) event.getProperty("year"),(Integer) event.getProperty("day"), (Boolean) event.getProperty("recur"));
+							(Boolean) event.getProperty("active"),
+							(Integer) event.getProperty("hours"),
+							(Integer) event.getProperty("minutes"),
+							(String) event.getProperty("schedDate"),
+							(Integer) event.getProperty("year"),
+							(Integer) event.getProperty("day"),
+							(Boolean) event.getProperty("recur"));
 					scheduledModulesEvent.add(scheduledModuleEvent);
 				}
 			}

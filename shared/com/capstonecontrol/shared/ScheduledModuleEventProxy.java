@@ -8,6 +8,14 @@ import com.google.web.bindery.requestfactory.shared.ProxyForName;
 @ProxyForName(value = "com.capstonecontrol.server.ScheduleModuleEvent", locator = "com.capstonecontrol.server.ScheduleModuleEventLocator")
 public interface ScheduledModuleEventProxy extends EntityProxy {
 
+	public int getDay();
+	
+	public int getYear();
+	
+	public boolean getReoccurence();
+	
+	public String getSchedDate();
+	
 	public int getMinutes();
 
 	public int getHours();
