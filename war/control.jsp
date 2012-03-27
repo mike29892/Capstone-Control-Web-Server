@@ -68,7 +68,7 @@
 	<div class="container-fluid" style="padding-top: 60px;">
 	  	<div class="row-fluid">
 	 		<div class="span3">
-	          <div class="well sidebar-nav">
+	          <div class="hero-unit sidebar-nav">
 	            <ul class="nav nav-list">
 					<%
 						String username = user.getNickname();

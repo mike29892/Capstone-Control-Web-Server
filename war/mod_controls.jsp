@@ -81,10 +81,10 @@ if(mod_type.equals("Dimmer")){
 			$( "#amount" ).html( $( "#Light_Dim" ).slider( "value" ) );
 			$('#Light_Dim').draggable();
 			$('#sinTime').datetimepicker({
-                
+                ampm: true
             });
             $('#recTime').timepicker({
-               
+               ampm: true
             });
 		
 		});
@@ -104,9 +104,10 @@ if(mod_type.equals("Dimmer")){
 
             if(single){
                 var value = $("#sinVal").val();
-                var time = $("#sinTime").val();
+                var time = Date.parse($("#sinTime").val());
                 var eventType = 'single';
-                var dayw = getdayofweekBIN(time);
+                var dayw = getdayofweekBIN($("#sinTime").val());
+                var recur = 0;
                 switch (dayw)
                 {
                 case 0:
@@ -134,9 +135,10 @@ if(mod_type.equals("Dimmer")){
                }
             }else{
                 var value = $("#recVal").val();
-                var time = "01/01/1970 "+$("#recTime").val();
+                var time = Date.parse("01/01/1970 "+$("#recTime").val());
                 var eventType = 'recurr';
                 var thedays = new Array();
+                var recur = 1;
                 $('#Sun').is(':checked') ? Sun=1 : Sun=0;
                 $('#Mon').is(':checked') ? Mon=1 : Mon=0;
                 $('#Tues').is(':checked') ? Tue=1 : Tue=0;
@@ -152,7 +154,8 @@ if(mod_type.equals("Dimmer")){
               url: "/ScheduleEvent",
               data: { "moduleName": name, "moduleType": type, "value": value,
               "action": action, "schedDate": time, "active": 1, "eventType":eventType,
-              "Sun": Sun, "Mon": Mon, "Tue":Tue, "Wed":Wed, "Thu":Thu, "Fri":Fri, "Sat":Sat, "offset": timeoff },
+              "Sun": Sun, "Mon": Mon, "Tue":Tue, "Wed":Wed, "Thu":Thu, "Fri":Fri, "Sat":Sat,
+               "offset": timeoff, "recur":recur  },
               success: function(resp){
                 //$("#control_panel").html(resp);
                 alert("Event Created");
@@ -187,7 +190,7 @@ if(mod_type.equals("Dimmer")){
 </ul>
 <div id="myTabContent" class="tab-content">
     
-    <div class="tab-pane fade in active" id="Control">
+    <div class="tab-pane fade in active well" id="Control">
         
         <h2><%out.println(mod_name); %></h2>
         <p>Drag the slider to adjust brightness of the lights.</p>
@@ -319,7 +322,7 @@ if(mod_type.equals("Dimmer")){
 	</style>
 		<script>
 		$(document).ready(function() {
-			$( "#Duration" ).slider({
+			/*$( "#Duration" ).slider({
 				range: "min",
 				value: 15,
 				min: 1,
@@ -329,16 +332,16 @@ if(mod_type.equals("Dimmer")){
 				}
 			});
 			$( "#time" ).html( $( "#Duration" ).slider( "value" ) );
+			*/
 			
-			
-			$('#Duration').draggable();
+			//$('#Duration').draggable();
 			$("#tabs").tab();
 			
 			$('#sinTime').datetimepicker({
-			    
+			    ampm: true
             });
             $('#recTime').timepicker({
-               
+               ampm: true
             });
 		
 		});
@@ -348,10 +351,11 @@ if(mod_type.equals("Dimmer")){
            var type = <%out.println("'"+mod_type+"'"+";"); %>
             var name = <% out.println("'"+mod_name+"'"+";"); %>
             var action = "OPEN";
+            message=15;
             $.ajax({
               type: 'POST',
               url: "/ControlModuleServlet",
-              data: { "moduleName": name, "moduleType": type, "message": message },
+              data: { "moduleName": name, "moduleType": type, "message": message, "action": "Open"},
               success: function(resp){
                 //$("#control_panel").html(resp);
             }
@@ -372,10 +376,11 @@ if(mod_type.equals("Dimmer")){
             var timeoff = new Date().getTimezoneOffset();
 
             if(single){
-                var value = $("#sinVal").val();
-                var time = $("#sinTime").val();
+                var value = 10;
+                var time = Date.parse($("#sinTime").val());
                 var eventType = 'single';
-                var dayw = getdayofweekBIN(time);
+                var dayw = getdayofweekBIN($("#sinTime").val());
+                var recur = 0;
                 switch (dayw)
                 {
                 case 0:
@@ -402,10 +407,11 @@ if(mod_type.equals("Dimmer")){
                default:
                }
             }else{
-                var value = $("#recVal").val();
-                var time = "01/01/1970 "+$("#recTime").val();
+                var value = 10;
+                var time = Date.parse("01/01/1970 "+$("#recTime").val());
                 var eventType = 'recurr';
                 var thedays = new Array();
+                var recur = 0;
                 $('#Sun').is(':checked') ? Sun=1 : Sun=0;
                 $('#Mon').is(':checked') ? Mon=1 : Mon=0;
                 $('#Tues').is(':checked') ? Tue=1 : Tue=0;
@@ -421,7 +427,8 @@ if(mod_type.equals("Dimmer")){
               url: "/ScheduleEvent",
               data: { "moduleName": name, "moduleType": type, "value": value,
               "action": action, "schedDate": time, "active": 1, "eventType":eventType,
-              "Sun": Sun, "Mon": Mon, "Tue":Tue, "Wed":Wed, "Thu":Thu, "Fri":Fri, "Sat":Sat, "offset": timeoff },
+              "Sun": Sun, "Mon": Mon, "Tue":Tue, "Wed":Wed, "Thu":Thu, "Fri":Fri, "Sat":Sat, 
+              "offset": timeoff, "recur":recur },
               success: function(resp){
                 //$("#control_panel").html(resp);
                 alert("Event Created");
@@ -440,6 +447,10 @@ if(mod_type.equals("Dimmer")){
             return newDate2;
         }
         
+        $("button .door").click(function(){
+            control();
+        });
+        
          $('#recurr').click(function(){ 
              schedule(0);
          });
@@ -455,12 +466,12 @@ if(mod_type.equals("Dimmer")){
 <div id="myTabContent" class="tab-content">
     
     
-    <div class="tab-pane fade in active" id="Control">
+    <div class="tab-pane fade in active well" id="Control">
 	   <h2><%out.println(mod_name); %></h2>
-        <p>Set the duration of time you want the door to open for and press the "Open" button.</p>
-	   <p id="time" style="border:0;width:50px;font-weight:bold;"></p>
-	   <div id="Duration"></div><br/>
-	   <a class="btn btn-primary btn-large btn-success">Open</a><br/>
+        <p>Open the door for 10 seconds.</p>
+	   <!--<p id="time" style="border:0;width:50px;font-weight:bold;"></p>
+	   <div id="Duration"></div><br/>--></br/>
+	   <a class="door btn btn-primary btn-large btn-success">Open</a><br/>
     </div>
     
     
@@ -502,13 +513,13 @@ if(mod_type.equals("Dimmer")){
                         </label>                        
                        </div>
                 </div>
-                <div class="control-group">
+                <!--<div class="control-group">
                     <label class="control-label" for="recVal">Value</label>
                     <div class="controls">
                         <input type="text" class="input-xlarge" id="recVal">
                         <p class="help-block">Enter time for door to open</p>
                     </div>
-                </div>
+                </div>-->
                 
                                
                 
@@ -528,13 +539,13 @@ if(mod_type.equals("Dimmer")){
                         <p class="help-block">Click the above box to open time selection box</p>
                     </div>
                 </div>
-                <div class="control-group">
+                <!--<div class="control-group">
                     <label class="control-label" for="sinVal">Value</label>
                     <div class="controls">
                         <input type="text" class="input-xlarge" id="sinVal">
                         <p class="help-block">Enter time for door to open</p>
                     </div>
-                </div>
+                </div>-->
                 
             </fieldset>
        </form>

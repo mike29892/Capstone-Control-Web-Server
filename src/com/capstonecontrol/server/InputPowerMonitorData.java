@@ -28,16 +28,19 @@ public class InputPowerMonitorData extends HttpServlet {
             throws IOException {
  
     	String data = req.getParameter("data");
+    	String user = req.getParameter("user");
+    	String modname = req.getParameter("moduleName");
     	Date date = new Date();
-        Entity module = new Entity("XBeeData");
-        module.setProperty("incoming", data);
+        Entity module = new Entity("PowerMonitorData");
+        module.setProperty("data", data);
+        module.setProperty("user", user);
+        module.setProperty("moduleName", modname);
         module.setProperty("date", date);
             
         DatastoreService datastore =
                DatastoreServiceFactory.getDatastoreService();
         datastore.put(module);
     	
-
         
     }
 }

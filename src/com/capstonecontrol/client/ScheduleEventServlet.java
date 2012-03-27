@@ -33,13 +33,24 @@ public class ScheduleEventServlet extends HttpServlet {
 	    public void doPost(HttpServletRequest req, HttpServletResponse resp)
 	            throws IOException {
 	    	UserService userService = UserServiceFactory.getUserService();
-	        User user = userService.getCurrentUser();
-	        String username = user.getNickname();
+	        
+	        String username = "";      
+	        try {
+				User user = userService.getCurrentUser();
+				username = user.getNickname();
+			} catch (Exception e) {
+				username = req.getParameter("user");
+			}
+			if (username == null){
+				username = req.getParameter("user"); 
+			}
+	        
 
 	        Key moduleKey = KeyFactory.createKey("user", username);
 	        String moduleName = req.getParameter("moduleName");	        
 	        String moduleType = req.getParameter("moduleType");
 	        String theaction = req.getParameter("action");
+	        String recur = req.getParameter("recur");
 	        String Sun = req.getParameter("Sun");
 	        String Mon = req.getParameter("Mon");
 	        String Tue = req.getParameter("Tue");
@@ -50,19 +61,15 @@ public class ScheduleEventServlet extends HttpServlet {
 	        String theval = req.getParameter("value");
 	        String theschedDate = req.getParameter("schedDate");
 	        String isactive = req.getParameter("active");
-	        String offset = req.getParameter("offset");
+	        //String offset = req.getParameter("offset");
 	        //String eveType = req.getParameter("eventType");
 	        
 	        Date date = new Date();	        
-	        Date finalschedDate = new Date();
+	        Date finalschedDate = new Date(Long.parseLong(theschedDate));
 	        
-	        String Parsestring;
+	        
 	        /*
-	        if(eveType == "single"){
-	        	Parsestring = "MM/dd/yyyy hh:mm";
-	        }else{
-	        	Parsestring = "hh:mm";
-	        }*/
+	        String Parsestring;	        
 	        Parsestring = "MM/dd/yyyy kk:mm";
 			try {
 				finalschedDate = new SimpleDateFormat(Parsestring, Locale.ENGLISH).parse(theschedDate);
@@ -70,13 +77,22 @@ public class ScheduleEventServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
 				finalschedDate.setTime(0);
-			}
+			}*/
+	        
+	    
 			
 			///here we use the offset to calculate the UTC time of the 
 			//scheduled event
-			int calcoff = finalschedDate.getHours() + (Integer.parseInt(offset)/60);
-			finalschedDate.setHours(calcoff);
-	      
+			//int calcoff = finalschedDate.getHours() + (Integer.parseInt(offset)/60);
+			//finalschedDate.setHours(calcoff);
+			
+			///create seperate fields for the date
+			//dow mon dd hh:mm:ss zzz yyyy
+			
+			int Year = finalschedDate.getYear()+1900;
+			int Month = finalschedDate.getMonth()+1;
+			int Day = finalschedDate.getDate();
+			
 	        Entity module = new Entity("scheduleModuleEvent", moduleKey);
 	        module.setProperty("user", username);
 	        module.setProperty("date", date);
@@ -91,7 +107,11 @@ public class ScheduleEventServlet extends HttpServlet {
 	        module.setProperty("Thu", Thu);
 	        module.setProperty("Fri", Fri);
 	        module.setProperty("Sat", Sat);
+	        module.setProperty("recur", recur);
 	        module.setProperty("schedDate", finalschedDate);
+	        module.setProperty("year", Year);
+	        module.setProperty("month", Month);
+	        module.setProperty("day", Day);
 	        module.setProperty("hours", finalschedDate.getHours());
 	        module.setProperty("minutes", finalschedDate.getMinutes());
 	        module.setProperty("active", isactive);

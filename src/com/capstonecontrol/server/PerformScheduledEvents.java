@@ -205,12 +205,18 @@ public class PerformScheduledEvents extends HttpServlet {
         }
 		
 		 out.println(currentDate.getHours() + " and " +currentDate.getMinutes() + "<br/>");
+		 
+		 
+		/////////////////////////////////////////////////////////
+		////////////////RECURRING EVENTS QUERY///////////////////
+		/////////////////////////////////////////////////////////
 		// The Query interface assembles a query
 		Query q = new Query("scheduleModuleEvent");
 		//filter for events on that day		
 		q.addFilter(bin, FilterOperator.EQUAL, "1");
 		q.addFilter("hours", FilterOperator.EQUAL, currentDate.getHours());
 		q.addFilter("minutes", FilterOperator.EQUAL, currentDate.getMinutes());
+		q.addFilter("recur", FilterOperator.EQUAL, "1");
 		
 	
 		// PreparedQuery contains the methods for fetching query results
@@ -220,7 +226,7 @@ public class PerformScheduledEvents extends HttpServlet {
 
 		for (Entity result : pq.asIterable()) {
 		  doEvent(result);
-		  EVENTS.add(result);
+		  
 		  String action = (String) result.getProperty("action");
 		  String date = result.getProperty("date").toString();
 		  //String days = (String) result.getProperty("days");
@@ -231,10 +237,59 @@ public class PerformScheduledEvents extends HttpServlet {
 		  String val = (String) result.getProperty("value");
 		  
 		  out.println(action + "---" + date + "---" + modname + "---" + modtype+ "---"  + scheddate + "---"  + user + "---" + val+"<br/>");
-		  EVENTSsched.add(scheddate);
+		  
 		}
 		
 		
+		//get month in string	
+		
+		int Year = currentDate.getYear()+1900;
+		int Month = currentDate.getMonth()+1;
+		int Day = currentDate.getDate();
+
+		/////////////////////////////////////////////////////////
+		////////////////One Time EVENTS QUERY ///////////////////
+		/////////////////////////////////////////////////////////
+		// The Query interface assembles a query
+		Query qo = new Query("scheduleModuleEvent");
+		//filter for events on that day		
+		//qo.addFilter(bin, FilterOperator.EQUAL, "1");
+		qo.addFilter("hours", FilterOperator.EQUAL, currentDate.getHours());
+		qo.addFilter("minutes", FilterOperator.EQUAL, currentDate.getMinutes());
+		qo.addFilter("recur", FilterOperator.EQUAL, "0");
+		qo.addFilter("active", FilterOperator.EQUAL, "1");
+		qo.addFilter("year", FilterOperator.EQUAL, Year);
+		qo.addFilter("month", FilterOperator.EQUAL, Month);
+		qo.addFilter("day", FilterOperator.EQUAL, Day);
+
+
+		// PreparedQuery contains the methods for fetching query results
+		// from the datastore
+		PreparedQuery pqo = datastore.prepare(qo);
+				
+		for (Entity result : pqo.asIterable()) {
+			//2012-03-24 22:17:00
+			String scheddate = result.getProperty("schedDate").toString();
+								
+			doEvent(result);
+			
+			///set active to 0
+			result.setProperty("active", "0");
+			String act = (String) result.getProperty("active");
+			
+			
+			String action = (String) result.getProperty("action");
+			String date = result.getProperty("date").toString();
+			//String days = (String) result.getProperty("days");
+			String modname = (String) result.getProperty("moduleName");
+			String modtype = (String) result.getProperty("moduleType");
+			
+			String user = (String) result.getProperty("user");
+			String val = (String) result.getProperty("value");
+
+			out.println(action + "---" + date + "---" + modname + "---" + modtype+ "---"  + scheddate + "---"  + user + "---" + val+ "active: "+ act +" <br/>");
+			
+		}
 		
 		
 		
