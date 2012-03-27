@@ -26,6 +26,7 @@ import com.capstonecontrol.shared.MessageProxy;
 import com.capstonecontrol.shared.ModuleEventProxy;
 import com.capstonecontrol.shared.ModuleInfoProxy;
 import com.capstonecontrol.shared.RegistrationInfoProxy;
+import com.capstonecontrol.shared.ScheduledModuleEventProxy;
 
 public interface ModulesRequestFactory extends RequestFactory {
 
@@ -44,6 +45,14 @@ public interface ModulesRequestFactory extends RequestFactory {
 	     * Retrieve users modules from the server.
 	     */
 		Request<List<ModuleEventProxy>> getModules();
+	  }
+	
+	@ServiceName("com.capstonecontrol.server.ScheduledModuleEventFetchService")
+	  public interface ScheduledModuleEventFetchRequest extends RequestContext {
+	    /**
+	     * Retrieve users modules from the server.
+	     */
+		Request<List<ScheduledModuleEventProxy>> getModules();
 	  }
 	
 	
