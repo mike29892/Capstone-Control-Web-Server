@@ -41,4 +41,11 @@
         <property name="date" direction="desc"/>
     </datastore-index>
     
+    <datastore-index kind="moduleEvent" ancestor="false" source="manual">
+        <property name="moduleName" direction="asc"/>
+        <property name="user" direction="asc"/>
+        <property name="date" direction="desc"/>
+    </datastore-index>
+    
+    
 </datastore-indexes>

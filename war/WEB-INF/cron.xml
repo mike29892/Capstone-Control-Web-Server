@@ -7,7 +7,7 @@
   <cron>
     <url>/PerformScheduledEvents</url>
     <description>Check for scheduled module events and perform them</description>
-    <schedule>every 1 minutes</schedule>
+    <schedule>every 1 minutes synchronized</schedule>
     <target>version-2</target>
   </cron>
 

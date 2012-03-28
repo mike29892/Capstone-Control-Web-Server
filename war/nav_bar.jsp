@@ -14,8 +14,8 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li><a href="#">Home</a></li>
-              <li><a href="/control.jsp">Control</a></li>
-              <li><a href="/addmodule.jsp">Add Modules</a></li>
+              <li><a href="/control.jsp">Modules</a></li>
+              <li><a href="/addmodule.jsp">Add Device</a></li>
             </ul>
             <p class="navbar-text pull-right" id="signlinks" >
 				<a href="#">

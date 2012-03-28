@@ -126,10 +126,10 @@ public class PerformScheduledEvents extends HttpServlet {
 		// do post to MQTT based on the scheduled event
 		String username = (String) scheduledModuleEvent.getProperty("user");
 		String modulename = (String) scheduledModuleEvent.getProperty("moduleName");
-		String value = (String) scheduledModuleEvent.getProperty("value");
+		String value = scheduledModuleEvent.getProperty("value").toString();
 		String moduletype = (String) scheduledModuleEvent.getProperty("moduleType");
 		String action = (String) scheduledModuleEvent.getProperty("action");
-		///fordebugging
+		///for debugging
 		String time = scheduledModuleEvent.getProperty("schedDate").toString();
 		String mqttchan = "/" + username + "/" + modulename;
 		try {
@@ -192,7 +192,7 @@ public class PerformScheduledEvents extends HttpServlet {
          		  break;  
          case 1:  bin = "Mon";
                   break;
-         case 2:  bin = "Tues";
+         case 2:  bin = "Tue";
                   break;
          case 3:  bin = "Wed";
                   break;
@@ -204,7 +204,7 @@ public class PerformScheduledEvents extends HttpServlet {
                   break;                
         }
 		
-		 out.println(currentDate.getHours() + " and " +currentDate.getMinutes() + "<br/>");
+		 //out.println(currentDate.getHours() + " and " +currentDate.getMinutes() + "<br/>");
 		 
 		 
 		/////////////////////////////////////////////////////////
@@ -213,10 +213,10 @@ public class PerformScheduledEvents extends HttpServlet {
 		// The Query interface assembles a query
 		Query q = new Query("scheduleModuleEvent");
 		//filter for events on that day		
-		q.addFilter(bin, FilterOperator.EQUAL, "1");
+		q.addFilter(bin, FilterOperator.EQUAL, true);
 		q.addFilter("hours", FilterOperator.EQUAL, currentDate.getHours());
 		q.addFilter("minutes", FilterOperator.EQUAL, currentDate.getMinutes());
-		q.addFilter("recur", FilterOperator.EQUAL, "1");
+		q.addFilter("recur", FilterOperator.EQUAL, true);
 		
 	
 		// PreparedQuery contains the methods for fetching query results
@@ -226,18 +226,18 @@ public class PerformScheduledEvents extends HttpServlet {
 
 		for (Entity result : pq.asIterable()) {
 		  doEvent(result);
-		  
-		  String action = (String) result.getProperty("action");
-		  String date = result.getProperty("date").toString();
-		  //String days = (String) result.getProperty("days");
-		  String modname = (String) result.getProperty("moduleName");
-		  String modtype = (String) result.getProperty("moduleType");
-		  String scheddate = result.getProperty("schedDate").toString();
-		  String user = (String) result.getProperty("user");
-		  String val = (String) result.getProperty("value");
+		  /*
+		    String action = (String) result.getProperty("action");
+			String date = result.getProperty("date").toString();
+			//String days = (String) result.getProperty("days");
+			String modname = (String) result.getProperty("moduleName");
+			String modtype = (String) result.getProperty("moduleType");
+			String scheddate = result.getProperty("schedDate").toString();
+			String user = (String) result.getProperty("user");
+			String val = result.getProperty("value").toString();
 		  
 		  out.println(action + "---" + date + "---" + modname + "---" + modtype+ "---"  + scheddate + "---"  + user + "---" + val+"<br/>");
-		  
+		  */
 		}
 		
 		
@@ -256,8 +256,8 @@ public class PerformScheduledEvents extends HttpServlet {
 		//qo.addFilter(bin, FilterOperator.EQUAL, "1");
 		qo.addFilter("hours", FilterOperator.EQUAL, currentDate.getHours());
 		qo.addFilter("minutes", FilterOperator.EQUAL, currentDate.getMinutes());
-		qo.addFilter("recur", FilterOperator.EQUAL, "0");
-		qo.addFilter("active", FilterOperator.EQUAL, "1");
+		qo.addFilter("recur", FilterOperator.EQUAL, false);
+		qo.addFilter("active", FilterOperator.EQUAL, true);
 		qo.addFilter("year", FilterOperator.EQUAL, Year);
 		qo.addFilter("month", FilterOperator.EQUAL, Month);
 		qo.addFilter("day", FilterOperator.EQUAL, Day);
@@ -267,28 +267,23 @@ public class PerformScheduledEvents extends HttpServlet {
 		// from the datastore
 		PreparedQuery pqo = datastore.prepare(qo);
 				
-		for (Entity result : pqo.asIterable()) {
-			//2012-03-24 22:17:00
-			String scheddate = result.getProperty("schedDate").toString();
-								
+		for (Entity result : pqo.asIterable()) {							
 			doEvent(result);
-			
 			///set active to 0
-			result.setProperty("active", "0");
-			String act = (String) result.getProperty("active");
-			
-			
+			result.setProperty("active", false);
+			datastore.put(result);
+		/*
+			String act = result.getProperty("active").toString();
+			String scheddate = result.getProperty("schedDate").toString();			
 			String action = (String) result.getProperty("action");
 			String date = result.getProperty("date").toString();
 			//String days = (String) result.getProperty("days");
 			String modname = (String) result.getProperty("moduleName");
-			String modtype = (String) result.getProperty("moduleType");
-			
+			String modtype = (String) result.getProperty("moduleType");			
 			String user = (String) result.getProperty("user");
-			String val = (String) result.getProperty("value");
-
+			String val = result.getProperty("value").toString();
 			out.println(action + "---" + date + "---" + modname + "---" + modtype+ "---"  + scheddate + "---"  + user + "---" + val+ "active: "+ act +" <br/>");
-			
+			*/
 		}
 		
 		
