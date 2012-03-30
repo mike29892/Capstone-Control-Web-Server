@@ -28,7 +28,7 @@ if(mod_type.equals("Dimmer")){
 <script src="front-end/js/bootstrap-tab.js"></script>
 <script src="front-end/js/jquery-ui-timepicker-addon.js"></script>
     <style>
-	.ui-slider .ui-slider-handle {
+    .ui-slider .ui-slider-handle {
         position: absolute;
         z-index: 2;
         width: 1.8em;
@@ -55,44 +55,44 @@ if(mod_type.equals("Dimmer")){
     .ui-timepicker-div dl dd { margin: 0 10px 20px 65px; }
     .ui-timepicker-div td { font-size: 90%; }
     .ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
-	</style>
-	<script>
-		$(document).ready(function() {
-			$( "#Light_Dim" ).slider({
-				range: "min",
-				value: 50,
-				min: 0,
-				max: 100,
-				slide: function( event, ui ) {
-					$( "#amount" ).html(  ui.value );
-					
-				},
-				change:  function( event, ui ) {
-					var type = <%out.println("'"+mod_type+"'"+";"); %>
-					var name = <% out.println("'"+mod_name+"'"+";"); %>
-					var message = ui.value;
-					$.ajax({
-					  type: 'POST',
-					  url: "/ControlModuleServlet",
-					  data: { "moduleName": name, "moduleType": type, "message": message, "action": "Dim"},
-					  success: function(resp){
-						//$("#control_panel").html(resp);
-					}
-					});
-				}
-			});
-			$( "#amount" ).html( $( "#Light_Dim" ).slider( "value" ) );
-			$('#Light_Dim').draggable();
-			$('#sinTime').datetimepicker({
+    </style>
+    <script>
+        $(document).ready(function() {
+            $( "#Light_Dim" ).slider({
+                range: "min",
+                value: 50,
+                min: 0,
+                max: 100,
+                slide: function( event, ui ) {
+                    $( "#amount" ).html(  ui.value );
+
+                },
+                change:  function( event, ui ) {
+                    var type = <%out.println("'"+mod_type+"'"+";"); %>
+                    var name = <% out.println("'"+mod_name+"'"+";"); %>
+                    var message = ui.value;
+                    $.ajax({
+                      type: 'POST',
+                      url: "/ControlModuleServlet",
+                      data: { "moduleName": name, "moduleType": type, "message": message, "action": "Dim"},
+                      success: function(resp){
+                        //$("#control_panel").html(resp);
+                    }
+                    });
+                }
+            });
+            $( "#amount" ).html( $( "#Light_Dim" ).slider( "value" ) );
+            $('#Light_Dim').draggable();
+            $('#sinTime').datetimepicker({
                 ampm: true
             });
             $('#recTime').timepicker({
                ampm: true
             });
-		
-		});
-		
-		 ///send control
+
+        });
+
+         ///send control
         function schedule(single){
             var type = <%out.println("'"+mod_type+"'"+";"); %>
             var name = <% out.println("'"+mod_name+"'"+";"); %>
@@ -202,8 +202,8 @@ if(mod_type.equals("Dimmer")){
              getEvents();
          }); 
                       
-		
-		</script>
+
+        </script>
 
 <h2><%out.println(mod_name); %></h2>
 <ul id="tab" class="nav nav-tabs">
@@ -329,14 +329,14 @@ if(mod_type.equals("Dimmer")){
 /////BUZZER***********************************
 ///////////////////////////////////////////////
 }else if(mod_type.equals("Door Buzzer")){%>
-	
-	<link rel="stylesheet" href="front-end/css/jquery-ui-1.8.18.custom.css">
-	<script type="text/javascript" src="front-end/jquery-ui-1.8.17.custom/js/jquery-ui-1.8.17.custom.min.js"></script>
-	<script src="front-end/js/jquery.ui.touch-punch.min.js"></script>
-	<script src="front-end/js/bootstrap-tab.js"></script>
-	<script src="front-end/js/jquery-ui-timepicker-addon.js"></script>
-	<style>
-	.ui-slider .ui-slider-handle {
+
+    <link rel="stylesheet" href="front-end/css/jquery-ui-1.8.18.custom.css">
+    <script type="text/javascript" src="front-end/jquery-ui-1.8.17.custom/js/jquery-ui-1.8.17.custom.min.js"></script>
+    <script src="front-end/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="front-end/js/bootstrap-tab.js"></script>
+    <script src="front-end/js/jquery-ui-timepicker-addon.js"></script>
+    <style>
+    .ui-slider .ui-slider-handle {
         position: absolute;
         z-index: 2;
         width: 1.8em;
@@ -360,34 +360,34 @@ if(mod_type.equals("Dimmer")){
     .ui-timepicker-div td { font-size: 90%; }
     .ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
     
-	</style>
-		<script>
-		$(document).ready(function() {
-			/*$( "#Duration" ).slider({
-				range: "min",
-				value: 15,
-				min: 1,
-				max: 30,
-				slide: function( event, ui ) {
-					$( "#time" ).html( ui.value );
-				}
-			});
-			$( "#time" ).html( $( "#Duration" ).slider( "value" ) );
-			*/
-			
-			//$('#Duration').draggable();
-			$("#tabs").tab();
-			
-			$('#sinTime').datetimepicker({
-			    ampm: true
+    </style>
+        <script>
+        $(document).ready(function() {
+            /*$( "#Duration" ).slider({
+                range: "min",
+                value: 15,
+                min: 1,
+                max: 30,
+                slide: function( event, ui ) {
+                    $( "#time" ).html( ui.value );
+                }
+            });
+            $( "#time" ).html( $( "#Duration" ).slider( "value" ) );
+            */
+
+            //$('#Duration').draggable();
+            $("#tabs").tab();
+
+            $('#sinTime').datetimepicker({
+                ampm: true
             });
             $('#recTime').timepicker({
                ampm: true
             });
-		
-		});
-		
-		///send control
+
+        });
+
+        ///send control
        function control(){
            var type = <%out.println("'"+mod_type+"'"+";"); %>
             var name = <% out.println("'"+mod_name+"'"+";"); %>
@@ -528,9 +528,9 @@ if(mod_type.equals("Dimmer")){
          $('#opendoor').click(function(){ 
              control();
          });  
-		</script>
-	
-	<h2><%out.println(mod_name); %></h2>	
+        </script>
+
+    <h2><%out.println(mod_name); %></h2>    
 <ul id="tab" class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#Control" data-toggle="tab">Control</a></li>
     <li><a href="#Schedule" data-toggle="tab">Schedule</a></li>
@@ -540,11 +540,11 @@ if(mod_type.equals("Dimmer")){
     
     
     <div class="tab-pane fade in active well" id="Control">
-	   
+
         <p>Open the door for 10 seconds.</p>
-	   <!--<p id="time" style="border:0;width:50px;font-weight:bold;"></p>
-	   <div id="Duration"></div><br/>--></br/>
-	   <a id="opendoor" class="door btn btn-primary btn-large btn-success">Open</a><br/>
+       <!--<p id="time" style="border:0;width:50px;font-weight:bold;"></p>
+       <div id="Duration"></div><br/>--></br/>
+       <a id="opendoor" class="door btn btn-primary btn-large btn-success">Open</a><br/>
     </div>
     
     
@@ -645,7 +645,7 @@ if(mod_type.equals("Dimmer")){
             
 </div>   
 
-	
+
 <%}else{
-	out.println("<h2>ERROR "+mod_type+" "+mod_name+"</h2>");
+    out.println("<h2>ERROR "+mod_type+" "+mod_name+"</h2>");
 }%>

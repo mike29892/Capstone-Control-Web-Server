@@ -85,6 +85,17 @@
 		<servlet-name>addModule</servlet-name>
 		<url-pattern>/addModule</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AddPhoneNumber</servlet-name>
+		<servlet-class>com.capstonecontrol.client.AddPhoneNumber
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddPhoneNumber</servlet-name>
+		<url-pattern>/AddPhoneNumber</url-pattern>
+	</servlet-mapping>
+	
 
 	<servlet>
 		<servlet-name>RemoveModule</servlet-name>
