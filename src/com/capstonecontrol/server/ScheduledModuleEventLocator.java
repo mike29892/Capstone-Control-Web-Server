@@ -7,7 +7,7 @@ public class ScheduledModuleEventLocator extends Locator<ScheduledModuleEvent, V
 
 	@Override
 	public ScheduledModuleEvent create(Class<? extends ScheduledModuleEvent> clazz) {
-		return new ScheduledModuleEvent(null, null, null, null, null, null, false, false, false, false, false, false, false, false, 0, 0, null, 0, 0, false);
+		return new ScheduledModuleEvent(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 	}
 
 	@Override

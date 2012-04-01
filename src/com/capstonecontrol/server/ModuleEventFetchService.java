@@ -39,7 +39,7 @@ public class ModuleEventFetchService {
 	public ModuleEventFetchService() {
 	}
 
-	public static List<ModuleEvent> getModules() {
+	public static List<ModuleEvent> getModuleEvents() {
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
 		List<Entity> events;

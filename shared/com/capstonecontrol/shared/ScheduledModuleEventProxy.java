@@ -5,75 +5,48 @@ import java.util.Date;
 import com.google.web.bindery.requestfactory.shared.EntityProxy;
 import com.google.web.bindery.requestfactory.shared.ProxyForName;
 
-@ProxyForName(value = "com.capstonecontrol.server.ScheduleModuleEvent", locator = "com.capstonecontrol.server.ScheduleModuleEventLocator")
+@ProxyForName(value = "com.capstonecontrol.server.ScheduledModuleEvent", locator = "com.capstonecontrol.server.ScheduledModuleEventLocator")
 public interface ScheduledModuleEventProxy extends EntityProxy {
-
-	public int getDay();
-	
-	public int getYear();
-	
-	public boolean getReoccurence();
-	
-	public Date getSchedDate();
-	
-	public int getMinutes();
-
-	public int getHours();
-
-	public void setMinutes(int minutes);
-
-	public void setHours(int hours);
-
-	public boolean getActive();
-
-	public void setActive(boolean active);
-
-	public boolean getMon();
-
-	public boolean getTue();
-
-	public boolean getWed();
-
-	public boolean getThu();
-
-	public boolean getFri();
-
-	public boolean getSat();
-
-	public boolean getSun();
-
-	public void setMon(boolean Mon);
-
-	public void setTue(boolean Tue);
-
-	public void setWed(boolean Wed);
-
-	public void setThu(boolean Thu);
-
-	public void setFri(boolean Fri);
-
-	public void setSat(boolean Sat);
-
-	public void setSun(boolean Sun);
 
 	public String getModuleName();
 
 	public String getModuleType();
-
-	public String getUser();
-
+	
+	public String getAction();
+	
 	public Date getDate();
 
-	public String getAction();
+	public Date getSchedDate();
 
-	public String getValue();
+	public Boolean getMon();
 
-	public void setDate(Date date);
+	public Boolean getTue();
 
-	// @TODO figure out why this is needed and how its used
-	int getVersion();
+	public Boolean getWed();
 
-	// @TODO figure out why this is needed and how its used
-	Long getId();
+	public Boolean getThu();
 
+	public Boolean getFri();
+
+	public Boolean getSat();
+
+	public Boolean getSun();
+
+	public Boolean getActive();
+
+	public Boolean getRecur();
+
+	public Long getMinute();
+
+	public Long getHour();
+	
+	public Long getDay();
+
+	public Long getMonth();
+
+	public Long getYear();
+
+	public Long getTimeOffset();
+
+	public Long getValue();
 }

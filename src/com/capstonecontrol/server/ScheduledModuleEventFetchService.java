@@ -39,7 +39,7 @@ public class ScheduledModuleEventFetchService {
 	public ScheduledModuleEventFetchService() {
 	}
 
-	public static List<ScheduledModuleEvent> getModules() {
+	public static List<ScheduledModuleEvent> getScheduledEvents() {
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
 		List<Entity> events;
@@ -57,7 +57,7 @@ public class ScheduledModuleEventFetchService {
 					.getDatastoreService();
 			Key moduleKey = KeyFactory.createKey("user", username);
 			// Run an ancestor query to ensure we see the most up-to-date
-			Query query = new Query("ScheduleModuleEvent", moduleKey).addSort(
+			Query query = new Query("scheduleModuleEvent", moduleKey).addSort(
 					"date", Query.SortDirection.DESCENDING);
 			events = datastore.prepare(query).asList(
 					FetchOptions.Builder.withLimit(2147483647));
@@ -73,10 +73,8 @@ public class ScheduledModuleEventFetchService {
 					ScheduledModuleEvent scheduledModuleEvent = new ScheduledModuleEvent(
 							(String) event.getProperty("moduleName"),
 							(String) event.getProperty("moduleType"),
-							(String) event.getProperty("user"),
-							(String) event.getProperty("action"),
 							(Date) event.getProperty("date"),
-							(String) event.getProperty("value"),
+							(Date) event.getProperty("schedDate"),
 							(Boolean) event.getProperty("Mon"),
 							(Boolean) event.getProperty("Tue"),
 							(Boolean) event.getProperty("Wed"),
@@ -85,12 +83,15 @@ public class ScheduledModuleEventFetchService {
 							(Boolean) event.getProperty("Sat"),
 							(Boolean) event.getProperty("Sun"),
 							(Boolean) event.getProperty("active"),
-							(Integer) event.getProperty("hours"),
-							(Integer) event.getProperty("minutes"),
-							(Date) event.getProperty("schedDate"),
-							(Integer) event.getProperty("year"),
-							(Integer) event.getProperty("day"),
-							(Boolean) event.getProperty("recur"));
+							(Boolean) event.getProperty("recur"),
+							(Long) event.getProperty("minutes"),
+							(Long) event.getProperty("hours"),
+							(Long) event.getProperty("day"),
+							(Long) event.getProperty("month"),
+							(Long) event.getProperty("year"),
+							(Long) event.getProperty("TimeOffset"),
+							(Long) event.getProperty("value"),
+							(String) event.getProperty("action"));
 					scheduledModulesEvent.add(scheduledModuleEvent);
 				}
 			}
