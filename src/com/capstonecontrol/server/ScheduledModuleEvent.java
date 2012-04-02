@@ -3,6 +3,7 @@ package com.capstonecontrol.server;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class ScheduledModuleEvent {
@@ -11,6 +12,8 @@ public class ScheduledModuleEvent {
 	Date schedDate;
 	Boolean mon, tue, wed, thu, fri, sat, sun, active, recur;
 	Long minute, hour, day, month, year, timeOffset, value;
+	@Id
+	Long id;
 
 	public ScheduledModuleEvent(String moduleName, String moduleType, Date date, Date schedDate,
 			Boolean mon, Boolean tue, Boolean wed, Boolean thu, Boolean fri,

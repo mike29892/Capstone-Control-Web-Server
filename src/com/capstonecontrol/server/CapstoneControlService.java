@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import com.capstonecontrol.annotation.ServiceMethod;
-import com.google.appengine.api.labs.taskqueue.TaskQueuePb.TaskQueueQueryAndOwnTasksResponse.Task;
 
 
 public class CapstoneControlService {

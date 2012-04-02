@@ -7,9 +7,7 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Transaction;
-import com.google.appengine.api.labs.taskqueue.TaskQueuePb.TaskQueueQueryAndOwnTasksResponse.Task;
 
 public class DataStore {
 	private static PersistenceManagerFactory PMF;
