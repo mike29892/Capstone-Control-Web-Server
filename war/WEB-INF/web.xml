@@ -166,6 +166,13 @@
 		<url-pattern>/InputPowerMonitorData</url-pattern>
 	</servlet-mapping>
 
- 
+ 	<servlet>
+		<servlet-name>AlertDispatcher</servlet-name>
+		<servlet-class>com.capstonecontrol.server.AlertDispatcher</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AlertDispatcher</servlet-name>
+		<url-pattern>/AlertDispatcher</url-pattern>
+	</servlet-mapping>
 
 </web-app>
