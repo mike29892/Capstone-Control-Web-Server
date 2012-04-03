@@ -25,6 +25,12 @@
 			}
         </style>
         <link rel="stylesheet" href="front-end/css/bootstrap-responsive.min.css">
+        
+        <link rel="stylesheet" href="front-end/css/jquery-ui-1.8.18.custom.css">
+    <script type="text/javascript" src="front-end/jquery-ui-1.8.17.custom/js/jquery-ui-1.8.17.custom.min.js"></script>
+    <script src="front-end/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="front-end/js/bootstrap-tab.js"></script>
+    <script src="front-end/js/jquery-ui-timepicker-addon.js"></script>
     </head>
     <body>
         <%@ include file="nav_bar.jsp"%>

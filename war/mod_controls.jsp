@@ -22,11 +22,7 @@ String mod_name=(String)request.getParameter("moduleName");
 if(mod_type.equals("Dimmer")){
 %>
 
-<link rel="stylesheet" href="front-end/css/jquery-ui-1.8.18.custom.css">
-<script type="text/javascript" src="front-end/jquery-ui-1.8.17.custom/js/jquery-ui-1.8.17.custom.min.js"></script>
-<script src="front-end/js/jquery.ui.touch-punch.min.js"></script>
-<script src="front-end/js/bootstrap-tab.js"></script>
-<script src="front-end/js/jquery-ui-timepicker-addon.js"></script>
+
     <style>
     .ui-slider .ui-slider-handle {
         position: absolute;
@@ -330,11 +326,7 @@ if(mod_type.equals("Dimmer")){
 ///////////////////////////////////////////////
 }else if(mod_type.equals("Door Buzzer")){%>
 
-    <link rel="stylesheet" href="front-end/css/jquery-ui-1.8.18.custom.css">
-    <script type="text/javascript" src="front-end/jquery-ui-1.8.17.custom/js/jquery-ui-1.8.17.custom.min.js"></script>
-    <script src="front-end/js/jquery.ui.touch-punch.min.js"></script>
-    <script src="front-end/js/bootstrap-tab.js"></script>
-    <script src="front-end/js/jquery-ui-timepicker-addon.js"></script>
+    
     <style>
     .ui-slider .ui-slider-handle {
         position: absolute;

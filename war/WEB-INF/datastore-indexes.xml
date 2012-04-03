@@ -47,5 +47,11 @@
         <property name="date" direction="desc"/>
     </datastore-index>
     
+    <datastore-index kind="Alerts" ancestor="false" source="manual">
+        <property name="ACK" direction="asc"/>
+        <property name="user" direction="asc"/>
+        <property name="date" direction="desc"/>
+    </datastore-index>
+    
     
 </datastore-indexes>

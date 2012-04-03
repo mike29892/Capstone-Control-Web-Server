@@ -29,6 +29,7 @@
         <script type="text/javascript" src="front-end/jquery-ui-1.8.17.custom/js/jquery-ui-1.8.17.custom.min.js"></script>
         <script src="front-end/js/jquery.ui.touch-punch.min.js"></script>
         <script src="front-end/js/bootstrap-tab.js"></script>
+        <script src="front-end/js/bootstrap-alert.js"></script>
     </head>
     <body>
         <%@ include file="nav_bar.jsp"%>
@@ -50,6 +51,7 @@
                     $("#signwhat").append("Sign Out");
                     $("#tick").append(" | ");
                     $("#signwhat").attr('href', "<%= userService.createLogoutURL(request.getRequestURI()) %>");
+                    getAlerts();
             });
 
             function getNumbers() {
@@ -76,6 +78,18 @@
                 }
              });
             }
+            
+             function getAlerts() {
+                  var offset = new Date().getTimezoneOffset()*60*1000;
+                  $.ajax({
+                  type: 'POST',
+                  url: "/alertstable.jsp",
+                  data: { "offset": offset },
+                  success: function(resp){
+                    $("#alertsin").html(resp);
+                }
+                });
+            }
 
            
             
@@ -88,9 +102,16 @@
                 <a href="#Settings" data-toggle="tab">Settings</a>
             </li>
         </ul>
-        <div id="myTabContent" class="tab-content row-fluid">
-            <div class="tab-pane fade in active" id="Alerts"></div>
-            <div class="tab-pane fade in" id="Settings">
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade in active" id="Alerts">
+                
+                <div id="alertsin"></div>
+                
+                
+            </div>
+            <div class="tab-pane fade in row-fluid" id="Settings">
+                <div class="span12">    
+                <div class="span1"></div>
                 <div class="well span4">
                     <fieldset>
                         <legend>
@@ -119,7 +140,7 @@
                 </div>
                 <div class="span4" id="numbers_in"></div>
             </div>
-            
+            </div>
         </div>
         <%
         } else {
