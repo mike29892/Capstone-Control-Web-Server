@@ -12,8 +12,10 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (1)"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Mikie/Desktop/gwt-servlet-deps.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Mikie/Desktop/json-20090211.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Mikie/Desktop/gwt-2.4.0/requestfactory-apt.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
