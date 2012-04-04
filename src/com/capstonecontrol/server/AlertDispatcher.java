@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
@@ -31,6 +33,7 @@ public class AlertDispatcher extends HttpServlet {
 	static String recipient;
 	static String user;
 	static String warning;
+	
 
 	public static final String PARAM_REGISTRATION_ID = "registration_id";
 
@@ -41,13 +44,18 @@ public class AlertDispatcher extends HttpServlet {
 	private static final String UTF8 = "UTF-8";
 
 	String moduleName;
+	String moduleType;
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 
+		
+		
+		////Put it in Alerts Table
 		warning = req.getParameter("warning");
 		user = req.getParameter("user");
 		moduleName = req.getParameter("moduleName");
+		moduleType = req.getParameter("moduleType");
 		Date date = new Date();
 		Entity module = new Entity("Alerts");
 		module.setProperty("Warning", warning);
@@ -59,6 +67,20 @@ public class AlertDispatcher extends HttpServlet {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		datastore.put(module);
+		
+		///put it in events table
+		Key moduleKey = KeyFactory.createKey("user", user);     
+        Entity actionmodule = new Entity("moduleEvent", moduleKey);
+        actionmodule.setProperty("user", user);
+        actionmodule.setProperty("date", date);
+        actionmodule.setProperty("moduleName", moduleName);
+        actionmodule.setProperty("moduleType",moduleType);
+        actionmodule.setProperty("action", "Alert");
+        actionmodule.setProperty("value", warning);
+
+        datastore =
+                DatastoreServiceFactory.getDatastoreService();
+        datastore.put(actionmodule);
 
 		// /query for all user phone numbers
 

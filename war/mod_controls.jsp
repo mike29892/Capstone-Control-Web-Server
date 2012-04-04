@@ -11,15 +11,44 @@
 <%@ page import="com.google.appengine.api.datastore.Key" %>
 <%@ page import="com.google.appengine.api.datastore.KeyFactory" %>
 
+<%@ page import="com.google.appengine.api.datastore.PreparedQuery"%>
+<%@ page import="com.google.appengine.api.datastore.Query.FilterOperator"%>
+<%@ page import="com.google.appengine.api.datastore.Query.SortDirection"%>
+
+
 <%
 //get the posted data here
 String mod_type=(String)request.getParameter("moduleType");
 String mod_name=(String)request.getParameter("moduleName");
+
 //mod_type = "Dimmer";
 ///////////////////////////////////////////////
 /////Dimmer***********************************
 ///////////////////////////////////////////////
 if(mod_type.equals("Dimmer")){
+   
+    int slider = 0;
+    UserService userService = UserServiceFactory.getUserService();
+    User user = userService.getCurrentUser();
+    String username = user.getNickname();     
+    //get last dimmer type 
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    //QUERY FOR UN-ACKED ALERTS    
+    Query q = new Query("moduleEvent");
+    //filter for events on that day     
+    q.addFilter("user", FilterOperator.EQUAL, username);
+    q.addFilter("moduleName", FilterOperator.EQUAL, mod_name); 
+    q.addFilter("moduleType", FilterOperator.EQUAL, mod_type);  
+    q.addSort("date", SortDirection.DESCENDING);   
+      
+    PreparedQuery pq = datastore.prepare(q);
+    
+    //loop through and output the proper lines
+    for (Entity result : pq.asIterable()) {                            
+         slider = Integer.parseInt((String)result.getProperty("value"));
+         break;                                             
+    }
+    
 %>
 
 
@@ -56,7 +85,7 @@ if(mod_type.equals("Dimmer")){
         $(document).ready(function() {
             $( "#Light_Dim" ).slider({
                 range: "min",
-                value: 50,
+                value: <%out.println(slider+","); %>
                 min: 0,
                 max: 100,
                 slide: function( event, ui ) {
