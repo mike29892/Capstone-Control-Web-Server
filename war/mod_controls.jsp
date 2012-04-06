@@ -690,7 +690,8 @@ if(mod_type.equals("Dimmer")){
         
         $(document).ready(function() {
            $("#tabs").tab();                    
-           drawChart();
+           drawChart('day');
+           
         });
 
         //get the week day binary string
@@ -743,12 +744,12 @@ if(mod_type.equals("Dimmer")){
          });  
              
          
-         function drawChart() {
+         function drawChart(time) {
             var jsonData = $.ajax({
                 url: "powergraph.jsp",
                 data: {"moduleName": <%out.println("'"+mod_name+"'"); %>,
                        "moduleType": <%out.println("'"+mod_type+"'"); %>,
-                       "time": 'day'},
+                       "time": time},
                 dataType:"json",
                 async: false
             }).responseText;
@@ -758,6 +759,10 @@ if(mod_type.equals("Dimmer")){
             var options = {
             title: 'Watts Over Time',
             vAxis: {title: 'Watts'},
+            hAxis: {title: 'Time'},
+            backgroundColor: { fill: "#F5F5F5" },
+            colors: ['#5BB75B'],
+            height: 400,
             isStacked: true
          };
 
@@ -769,26 +774,26 @@ if(mod_type.equals("Dimmer")){
     <h2><%out.println(mod_name); %></h2>    
 <ul id="tab" class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#Graph" data-toggle="tab">Graph</a></li>    
-    <li><a href="#Events" data-toggle="tab">Events</a></li>
+    <!--<li><a href="#Events" data-toggle="tab">Events</a></li>-->
 </ul>
 <div id="myTabContent" class="tab-content">
     Wattage report graph from <%out.println(mod_name); %>
     
     <div class="tab-pane fade in active well" id="Graph">
         <div class="btn-group">
-            <button class="btn" onclick="getGraph('day')">Day</button>
-            <button class="btn" onclick="getGraph('week')">Week</button>
-            <button class="btn" onclick="getGraph('month')">Month</button>
+            <button class="btn" onclick="drawChart('day')">24 Hours</button>
+            <button class="btn" onclick="drawChart('week')">7 Day</button>
+            
             <!--<button class="btn" onclick="getGraph('year')">Year</button>-->
         </div>
-        <div id="chart_div">
+        <div id="chart_div" >
         
         </div>
        
     </div>
     
     
-    <div class="tab-pane fade well" id="Events">
+    <!--<div class="tab-pane fade well" id="Events">
         
     <div class="form-inline span8" style="margin-left:0px;">
         <label class="control-label" for="count"># of Events</label>            
@@ -802,7 +807,7 @@ if(mod_type.equals("Dimmer")){
     </div>
     
             <div id="eventsin"></div>
-    </div>
+    </div>-->
             
 </div>   
 
