@@ -15,6 +15,10 @@
         <title>Control Modules</title>
         <link rel="stylesheet" href="front-end/css/bootstrap.min.css">
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+        <script type="text/javascript">
+            google.load('visualization', '1', {packages: ['corechart']});
+        </script>
         <style type="text/css">
 			body {
 				padding-top: 60px;
@@ -78,7 +82,7 @@
                         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
                         Key moduleKey = KeyFactory.createKey("user", username);
                         //Run an ancestor query to ensure we see the most up-to-date
-                        Query query = new Query("moduleInfo", moduleKey).addSort("moduleType", Query.SortDirection.DESCENDING);
+                        Query query = new Query("moduleInfo", moduleKey).addSort("moduleType", Query.SortDirection.ASCENDING);
                         List<Entity> modules = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(15));
 
 

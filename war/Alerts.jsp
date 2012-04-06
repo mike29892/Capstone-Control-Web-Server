@@ -41,6 +41,7 @@
         }
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
+        String username = user.getNickname();
         if (user != null) {
         %>
         <script>
@@ -91,6 +92,21 @@
                 });
             }
 
+        function clearAlerts() {
+            var user = <% out.println("'"+username+"'"+";"); %>
+            $.ajax({
+                type: 'POST',
+                url: "/ClearAlerts",
+                data: { "user" : user},
+                success: function(resp) {                
+                    getAlerts();
+                }
+            });
+        }
+            
+        //$('#clearalerts').click(function(){ 
+             //clearAlerts();
+         //}); 
            
             
         </script>
@@ -106,6 +122,13 @@
             <div class="tab-pane fade in active" id="Alerts">
                 
                 <div id="alertsin"></div>
+                <div class="span12">
+                    <div class="span1"></div>
+                    <div class="span10">
+                        <button class="btn btn-large btn-warning" onclick="clearAlerts()" id="clearalerts">Clear Alerts</button>  
+                    </div>
+                    <div class="span1"></div>
+                </div>
                 
                 
             </div>

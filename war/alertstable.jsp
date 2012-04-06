@@ -41,7 +41,7 @@ Long offset = Long.parseLong(request.getParameter("offset"));
                 q.addSort("date", SortDirection.DESCENDING);   
       
                 PreparedQuery pq = datastore.prepare(q);
-    
+                int count = 0;
                 //loop through and output the proper lines
                 for (Entity result : pq.asIterable()) {
                             
@@ -59,26 +59,35 @@ Long offset = Long.parseLong(request.getParameter("offset"));
                      out.println("<h4 class=\"alert-heading\">Warning!</h4>");  
                      out.println("<br/>" + modname + ": " + warn + " time: " + dateString);    
                      out.println("</div>");                       
-                           
+                     count++;  
+                }
+                
+                if (count == 0){
+                     out.println("<div class=\"alert alert-block alert-info\">");        
+                     out.println("<a class=\"close\" data-dismiss=\"alert\">×</a>");                   ;    
+                     out.println("<h4 class=\"alert-heading\">No Alerts</h4>");  
+                     out.println("<br/> There are currently no active alerts.");    
+                     out.println("</div>"); 
                 }
                 %>
                 
-      
-                
+    
+ <!--               
 <table class="table table-condensed">
 <thead>
     <tr>
       <th>Date</th>
-      <!--<th>Action</th>-->
+     
       <th>Module Name</th>
       <th>Alert</th>
     </tr>
   </thead>
   <tbody>
-     
-     <%
+     -->
+     <% 
+     /*
                 //QUERY FOR All Alerts --- last 50 
-                q = new Query("Alerts");
+                q = new Query("Module Event");
                 //filter for events on that day     
                 q.addFilter("user", FilterOperator.EQUAL, username);
                 q.addFilter("ACK", FilterOperator.EQUAL, true);  
@@ -109,12 +118,18 @@ Long offset = Long.parseLong(request.getParameter("offset"));
                                     
                 }
  
+                */ 
                 %>
     
-  </tbody>
+ <!-- </tbody>
 </table>
-
+-->
 </div>
 <div class="span1"></div>
 </div>
+
+<script>
+    
+    
+</script>
 

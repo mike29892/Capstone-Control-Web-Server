@@ -667,6 +667,146 @@ if(mod_type.equals("Dimmer")){
 </div>   
 
 
+<%
+///////////////////////////////////////////////
+/////Power Monitor****************************
+///////////////////////////////////////////////
+}else if(mod_type.equals("Power Monitor")){%>
+
+    
+    
+    
+    <style>
+   
+    
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */ 
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */ 
+     box-sizing: border-box;         /* Opera/IE 8+ */ 
+     
+   
+    
+    </style>
+        <script>      
+        
+        $(document).ready(function() {
+           $("#tabs").tab();                    
+           drawChart();
+        });
+
+        //get the week day binary string
+        function getdayofweekBIN(thedate){
+            //03/01/2012 08:45
+            datesp = thedate.split("/");
+            year = datesp[2].split(" ");            
+            newDate = new Date(year[0], datesp[0]-1, datesp[1]);
+            var daystring = '0000000';
+            var newDate2=newDate.getDay();            
+            return newDate2;
+        }
+        
+        
+         
+          function getEvents(){
+            var count = $("#count").val();
+            $.ajax({
+                  type: 'POST',
+                  url: "/events.jsp",
+                  data: { "moduleName": <%out.println("'"+mod_name+"'"); %>,
+                          "moduleType": <%out.println("'"+mod_type+"'"); %>,
+                          "count": count },
+                  success: function(resp){
+                    $("#eventsin").html(resp);
+                }
+                });
+         }
+         
+         function getGraph(time){
+            var height = $("#Graph").height();
+            var width = $("#Graph").width();
+            $.ajax({
+                  type: 'POST',
+                  url: "/powergraph.jsp",
+                  data: { "moduleName": <%out.println("'"+mod_name+"'"); %>,
+                          "moduleType": <%out.println("'"+mod_type+"'"); %>,
+                          "height": height, "width": width, "time":time },
+                  success: function(resp){
+                    $("#graphin").html(resp);                   
+                    
+                }
+                });
+         }
+        
+        
+        
+         $('#getEvents').click(function(){ 
+             getEvents();
+         });  
+             
+         
+         function drawChart() {
+            var jsonData = $.ajax({
+                url: "powergraph.jsp",
+                data: {"moduleName": <%out.println("'"+mod_name+"'"); %>,
+                       "moduleType": <%out.println("'"+mod_type+"'"); %>,
+                       "time": 'day'},
+                dataType:"json",
+                async: false
+            }).responseText;
+          
+            var data = new google.visualization.DataTable(jsonData);
+
+            var options = {
+            title: 'Watts Over Time',
+            vAxis: {title: 'Watts'},
+            isStacked: true
+         };
+
+        var chart = new google.visualization.SteppedAreaChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+        </script>
+
+    <h2><%out.println(mod_name); %></h2>    
+<ul id="tab" class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#Graph" data-toggle="tab">Graph</a></li>    
+    <li><a href="#Events" data-toggle="tab">Events</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+    Wattage report graph from <%out.println(mod_name); %>
+    
+    <div class="tab-pane fade in active well" id="Graph">
+        <div class="btn-group">
+            <button class="btn" onclick="getGraph('day')">Day</button>
+            <button class="btn" onclick="getGraph('week')">Week</button>
+            <button class="btn" onclick="getGraph('month')">Month</button>
+            <!--<button class="btn" onclick="getGraph('year')">Year</button>-->
+        </div>
+        <div id="chart_div">
+        
+        </div>
+       
+    </div>
+    
+    
+    <div class="tab-pane fade well" id="Events">
+        
+    <div class="form-inline span8" style="margin-left:0px;">
+        <label class="control-label" for="count"># of Events</label>            
+          <select id="count" class="span4">                
+             <option value="10">10</option>
+             <option value="50">50</option>
+             <option value="100">100</option>
+             <option value="1000000">All</option>
+          </select>  
+          <button id="getEvents" class="btn btn-warning"><i class="icon-search icon-white"></i></button>        
+    </div>
+    
+            <div id="eventsin"></div>
+    </div>
+            
+</div>   
+
+
 <%}else{
     out.println("<h2>ERROR "+mod_type+" "+mod_name+"</h2>");
 }%>

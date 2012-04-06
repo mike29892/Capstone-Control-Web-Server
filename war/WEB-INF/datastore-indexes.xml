@@ -14,6 +14,9 @@
     <datastore-index kind="moduleInfo" ancestor="true" source="manual">
         <property name="moduleType" direction="desc"/>
     </datastore-index>
+    <datastore-index kind="moduleInfo" ancestor="true" source="manual">
+        <property name="moduleType" direction="asc"/>
+    </datastore-index>
     
     <datastore-index kind="moduleEvent" ancestor="true" source="manual">
         <property name="moduleType" direction="desc"/>
@@ -58,6 +61,18 @@
         <property name="moduleType" direction="asc"/>
         <property name="user" direction="asc"/>
         <property name="date" direction="desc"/>
+    </datastore-index>
+    
+    <datastore-index kind="PowerMonitorData" ancestor="false" source="manual">
+        <property name="moduleName" direction="asc"/>        
+        <property name="user" direction="asc"/>
+        <property name="date" direction="desc"/>
+    </datastore-index>
+    
+    <datastore-index kind="PowerMonitorData" ancestor="false" source="manual">
+        <property name="moduleName" direction="asc"/>        
+        <property name="user" direction="asc"/>
+        <property name="date" direction="asc"/>
     </datastore-index>
     
     

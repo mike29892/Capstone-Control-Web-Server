@@ -174,5 +174,14 @@
 		<servlet-name>AlertDispatcher</servlet-name>
 		<url-pattern>/AlertDispatcher</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ClearAlertsServelet</servlet-name>
+		<servlet-class>com.capstonecontrol.client.ClearAlertsServelet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ClearAlertsServelet</servlet-name>
+		<url-pattern>/ClearAlerts</url-pattern>
+	</servlet-mapping>
 
 </web-app>
