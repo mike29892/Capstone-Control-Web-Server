@@ -24,7 +24,7 @@ Long offset = Long.parseLong(request.getParameter("offset"));
 %>
 <br /><div class="span12 row-fluid">
 <div class="span1"></div>
-<div class="span10">
+<div class="span8">
 <%
                 //get the user
                 UserService userService = UserServiceFactory.getUserService();

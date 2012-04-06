@@ -164,9 +164,12 @@
 
 
 	</script>
-<p>Hello!
-<a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
-to add/remove modules to your account.</p>
+<div class="hero-unit row-fluid">
+                    <h1>Welcome To SentientHome</h1>
+                    <p>Please sign in to begin using our Cloud Driven Home AUtomation System</p>
+                    <p><a class="btn btn-primary btn-large" href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
+                    </p>
+                </div>
 <%
     }
 %>

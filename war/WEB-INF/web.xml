@@ -15,7 +15,7 @@
 
 	<!-- Default page to serve -->
 	<welcome-file-list>
-		<welcome-file>addmodule.jsp</welcome-file>
+		<welcome-file>Home.jsp</welcome-file>
 	</welcome-file-list>
 
 	<!-- RequestFactory Servlet -->

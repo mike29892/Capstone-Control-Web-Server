@@ -13,7 +13,7 @@
           <a class="brand" href="#">SentientHome</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li><a href="#">Home</a></li>
+              <li><a href="/Home.jsp">Home</a></li>
               <li><a href="/control.jsp">Modules</a></li>
               <li><a href="/addmodule.jsp">Add Device</a></li>
               <li><a href="/Alerts.jsp">Alerts</a></li>
