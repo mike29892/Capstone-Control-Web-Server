@@ -916,7 +916,7 @@ if(mod_type.equals("Dimmer")){
     <li><a href="#Events" data-toggle="tab">Events</a></li>
 </ul>
 <div id="myTabContent" class="tab-content">
-    Wattage report graph from <%out.println(mod_name); %>
+   
     
     <div class="tab-pane fade in active well" id="Alerts">
         <div id="alertsin" class="row-fluid"></div>
