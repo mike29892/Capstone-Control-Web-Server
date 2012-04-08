@@ -76,7 +76,7 @@ public class AlertDispatcher extends HttpServlet {
         actionmodule.setProperty("moduleName", moduleName);
         actionmodule.setProperty("moduleType",moduleType);
         actionmodule.setProperty("action", "Alert");
-        actionmodule.setProperty("value", warning);
+        actionmodule.setProperty("value", 0);
 
         datastore =
                 DatastoreServiceFactory.getDatastoreService();

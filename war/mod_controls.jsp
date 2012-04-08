@@ -204,12 +204,13 @@ if(mod_type.equals("Dimmer")){
         
         function getEvents(){
             var count = $("#count").val();
+            var offset = new Date().getTimezoneOffset()*60*1000;
             $.ajax({
                   type: 'POST',
                   url: "/events.jsp",
                   data: { "moduleName": <%out.println("'"+mod_name+"'"); %>,
                           "moduleType": <%out.println("'"+mod_type+"'"); %>,
-                          "count": count },
+                          "count": count, "offset": offset },
                   success: function(resp){
                     $("#eventsin").html(resp);
                 }
@@ -329,15 +330,21 @@ if(mod_type.equals("Dimmer")){
     
     <div class="tab-pane fade well" id="Events">
         
-    <div class="form-inline span8" style="margin-left:0px;">
-        <label class="control-label" for="count"># of Events</label>            
-          <select id="count" class="span4">                
-             <option value="10">10</option>
-             <option value="50">50</option>
-             <option value="100">100</option>
-             <option value="1000000">All</option>
-          </select>  
-          <button id="getEvents" class="btn btn-warning"><i class="icon-search icon-white"></i></button>        
+    <div class="form-inline span8 row-fluid" style="margin-left:0px;">
+        
+        <label class="control-label" for="count"># Events</label> 
+                
+          
+              <select id="count" class="span4">                
+                <option value="10">10</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="1000000">All</option>
+            </select>
+      
+             
+            <button id="getEvents" class="btn btn-warning"><i class="icon-search icon-white"></i></button> 
+          
     </div>
     
             <div id="eventsin"></div>
@@ -522,12 +529,13 @@ if(mod_type.equals("Dimmer")){
          
           function getEvents(){
             var count = $("#count").val();
+            var offset = new Date().getTimezoneOffset()*60*1000;
             $.ajax({
                   type: 'POST',
                   url: "/events.jsp",
                   data: { "moduleName": <%out.println("'"+mod_name+"'"); %>,
                           "moduleType": <%out.println("'"+mod_type+"'"); %>,
-                          "count": count },
+                          "count": count, "offset": offset },
                   success: function(resp){
                     $("#eventsin").html(resp);
                 }
@@ -690,7 +698,7 @@ if(mod_type.equals("Dimmer")){
         
         $(document).ready(function() {
            $("#tabs").tab();                    
-           drawChart('day');
+           drawChart('day');           
            
         });
 
@@ -709,14 +717,28 @@ if(mod_type.equals("Dimmer")){
          
           function getEvents(){
             var count = $("#count").val();
+            var offset = new Date().getTimezoneOffset()*60*1000;
             $.ajax({
                   type: 'POST',
                   url: "/events.jsp",
                   data: { "moduleName": <%out.println("'"+mod_name+"'"); %>,
                           "moduleType": <%out.println("'"+mod_type+"'"); %>,
-                          "count": count },
+                          "count": count,"offset": offset },
                   success: function(resp){
                     $("#eventsin").html(resp);
+                }
+                });
+         }
+         
+         function getKwatthours(time){            
+            $.ajax({
+                  type: 'POST',
+                  url: "/powerWatthours.jsp",
+                  data: { "moduleName": <%out.println("'"+mod_name+"'"); %>,
+                          "moduleType": <%out.println("'"+mod_type+"'"); %>,
+                          "time":time },
+                  success: function(resp){
+                    $("#wattsin").html(resp);
                 }
                 });
          }
@@ -768,6 +790,8 @@ if(mod_type.equals("Dimmer")){
 
         var chart = new google.visualization.SteppedAreaChart(document.getElementById('chart_div'));
         chart.draw(data, options);
+        
+        getKwatthours(time);
       }
         </script>
 
@@ -789,7 +813,7 @@ if(mod_type.equals("Dimmer")){
         <div id="chart_div" >
         
         </div>
-       
+       <div id="wattsin" ></div>
     </div>
     
     
@@ -811,6 +835,112 @@ if(mod_type.equals("Dimmer")){
             
 </div>   
 
+<%
+///////////////////////////////////////////////
+/////Flood Sensor****************************
+///////////////////////////////////////////////
+}else if(mod_type.equals("Water Alarm")){%>
+
+    
+    
+    
+    <style>
+   
+    
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */ 
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */ 
+     box-sizing: border-box;         /* Opera/IE 8+ */ 
+     
+   
+    
+    </style>
+        <script>      
+        
+        $(document).ready(function() {
+           $("#tabs").tab();                    
+           getAlerts();
+           
+        });
+
+        //get the week day binary string
+        function getdayofweekBIN(thedate){
+            //03/01/2012 08:45
+            datesp = thedate.split("/");
+            year = datesp[2].split(" ");            
+            newDate = new Date(year[0], datesp[0]-1, datesp[1]);
+            var daystring = '0000000';
+            var newDate2=newDate.getDay();            
+            return newDate2;
+        }
+        
+        
+         
+          function getEvents(){
+            var count = $("#count").val();
+            var offset = new Date().getTimezoneOffset()*60*1000;
+            $.ajax({
+                  type: 'POST',
+                  url: "/events.jsp",
+                  data: { "moduleName": <%out.println("'"+mod_name+"'"); %>,
+                          "moduleType": <%out.println("'"+mod_type+"'"); %>,
+                          "count": count,"offset": offset },
+                  success: function(resp){
+                    $("#eventsin").html(resp);
+                }
+                });
+         }
+         
+        
+         $('#getEvents').click(function(){ 
+             getEvents();
+         });  
+             
+          function getAlerts() {
+                  var offset = new Date().getTimezoneOffset()*60*1000;
+                  $.ajax({
+                  type: 'POST',
+                  url: "/alertstable.jsp",
+                  data: { "offset": offset },
+                  success: function(resp){
+                    $("#alertsin").html(resp);
+                }
+                });
+            }
+         
+
+        </script>
+
+    <h2><%out.println(mod_name); %></h2>    
+<ul id="tab" class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#Alerts" data-toggle="tab">Alerts</a></li>    
+    <li><a href="#Events" data-toggle="tab">Events</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+    Wattage report graph from <%out.println(mod_name); %>
+    
+    <div class="tab-pane fade in active well" id="Alerts">
+        <div id="alertsin" class="row-fluid"></div>
+               
+       
+    </div>
+    
+    <div class="tab-pane fade well" id="Events">
+        
+    <div class="form-inline span8" style="margin-left:0px;">
+        <label class="control-label" for="count"># of Events</label>            
+          <select id="count" class="span4">                
+             <option value="10">10</option>
+             <option value="50">50</option>
+             <option value="100">100</option>
+             <option value="1000000">All</option>
+          </select>  
+          <button id="getEvents" class="btn btn-warning"><i class="icon-search icon-white"></i></button>        
+    </div>
+    
+            <div id="eventsin"></div>
+    </div>
+            
+</div>   
 
 <%}else{
     out.println("<h2>ERROR "+mod_type+" "+mod_name+"</h2>");

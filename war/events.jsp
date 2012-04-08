@@ -14,13 +14,15 @@
 <%@ page import="com.google.appengine.api.datastore.PreparedQuery"%>
 <%@ page import="com.google.appengine.api.datastore.Query.FilterOperator"%>
 <%@ page import="com.google.appengine.api.datastore.Query.SortDirection"%>
+<%@ page import="java.util.Date" %>
+
 
 <%
 //get the posted data here
 String mod_type=(String)request.getParameter("moduleType");
 String mod_name=(String)request.getParameter("moduleName");
 int count = Integer.parseInt((String)request.getParameter("count"));
-
+Long offset = Long.parseLong(request.getParameter("offset"));
 %>
 
 
@@ -58,8 +60,13 @@ int count = Integer.parseInt((String)request.getParameter("count"));
      
       //loop through and output the proper lines
       for (Entity result : pq.asIterable()) {
+          
+           Date thedate = (Date)result.getProperty("date");
+           Long time = thedate.getTime();
+           thedate.setTime(time-offset);
                             
-           String date = result.getProperty("date").toString();
+           String date = thedate.toString();
+           date = date.replace("UTC", "");
            String modname = (String) result.getProperty("moduleName");
            String action = (String) result.getProperty("action");
            String val = result.getProperty("value").toString();

@@ -22,7 +22,8 @@
 Long offset = Long.parseLong(request.getParameter("offset"));
 
 %>
-<br /><div class="span12 row-fluid">
+<br />
+<!--<div class="span12 row-fluid">-->
 <div class="span1"></div>
 <div class="span8">
 <%
@@ -50,6 +51,7 @@ Long offset = Long.parseLong(request.getParameter("offset"));
                      thedate.setTime(time-offset);
                      
                      String dateString = thedate.toString();
+                     dateString = dateString.replace("UTC", "");
                      String modname = (String) result.getProperty("moduleName");
                      String warn = (String) result.getProperty("Warning");
                        
@@ -126,7 +128,7 @@ Long offset = Long.parseLong(request.getParameter("offset"));
 -->
 </div>
 <div class="span1"></div>
-</div>
+<!--</div>-->
 
 <script>
     

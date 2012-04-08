@@ -21,6 +21,8 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -51,6 +53,7 @@ public class PowerDataFetchService {
 		} else {
 			// get modules that match user
 			String username = user.getNickname();
+			/*
 			DatastoreService datastore = DatastoreServiceFactory
 					.getDatastoreService();
 			Key moduleKey = KeyFactory.createKey("user", username);
@@ -59,6 +62,16 @@ public class PowerDataFetchService {
 					Query.SortDirection.DESCENDING);
 			powerData = datastore.prepare(query).asList(
 					FetchOptions.Builder.withLimit(2147483647));
+					*/
+			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+            //QUERY FOR UN-ACKED ALERTS    
+           Query q = new Query("PowerMonitorData");
+           //filter for events on that day     
+           q.addFilter("user", FilterOperator.EQUAL, username);             
+           q.addSort("date", SortDirection.DESCENDING);   
+           powerData = datastore.prepare(q).asList(FetchOptions.Builder.withDefaults());
+			
+			
 			if (powerData.isEmpty()) {
 
 				// There are no modules added to your account.
@@ -78,6 +91,7 @@ public class PowerDataFetchService {
 			}
 
 		}
+		
 		return powerDataArray;
 	}
 }

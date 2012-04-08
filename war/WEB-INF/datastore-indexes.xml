@@ -75,5 +75,10 @@
         <property name="date" direction="asc"/>
     </datastore-index>
     
+    <datastore-index kind="PowerMonitorData" ancestor="false" source="manual">
+        <property name="user" direction="asc"/>
+        <property name="date" direction="desc"/>
+    </datastore-index>
+    
     
 </datastore-indexes>

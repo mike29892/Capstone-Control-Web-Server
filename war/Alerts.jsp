@@ -12,7 +12,7 @@
 <%@ page import="com.google.appengine.api.datastore.KeyFactory" %>
 <html lang="en">
     <head>
-        <title>Control Modules</title>
+        <title>Module Alerts</title>
         <link rel="stylesheet" href="front-end/css/bootstrap.min.css">
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <style type="text/css">
@@ -119,21 +119,21 @@
             </li>
         </ul>
         <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade in active" id="Alerts">
+            <div class="tab-pane fade in active row-fluid" id="Alerts">
                 
-                <div id="alertsin"></div>
-                <div class="span12">
-                    <div class="span1"></div>
-                    <div class="span10">
+                <div id="alertsin" class="row-fluid"></div>
+               
+                    <div class="span1 row-fluid"></div>
+                    <div class="span10 row-fluid">
                         <button class="btn btn-large btn-warning" onclick="clearAlerts()" id="clearalerts">Clear Alerts</button>  
                     </div>
-                    <div class="span1"></div>
-                </div>
+                    <div class="span1 row-fluid"></div>
+              
                 
                 
             </div>
             <div class="tab-pane fade in row-fluid" id="Settings">
-                <div class="span12 row-fluid">    
+               
                 <div class="span1"></div>
                 <div class="well span4">
                     <fieldset>
@@ -162,7 +162,7 @@
                     <button id="addnum" onclick="addNumbers()" class="btn btn-info"><i class="icon-plus icon-white"></i>Add Phone Number</button>
                 </div>
                 <div class="span4" id="numbers_in"></div>
-            </div>
+            
             </div>
         </div>
         <%
